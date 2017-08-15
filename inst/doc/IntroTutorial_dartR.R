@@ -2,15 +2,16 @@
 knitr::opts_chunk$set(echo = TRUE)
 
 ## ---- eval=FALSE---------------------------------------------------------
+#  install.packages("dartR")
+
+## ---- eval=FALSE---------------------------------------------------------
 #  # Install and attach library dartR
 #    install.packages("devtools")
 #    library(devtools)
 #    source("http://bioconductor.org/biocLite.R")
 #    biocLite("qvalue", suppressUpdates=T)
 #    biocLite("SNPRelate", suppressUpdates=T)
-#    install_github("whitlock/OutFLANK")
 #    install_github("green-striped-gecko/dartR")
-#  
 
 ## ------------------------------------------------------------------------
  library(dartR)
@@ -30,7 +31,7 @@ m <- as.matrix(gl)
 as.matrix(gl)[1:5,1:3]
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  gl <- gl.read.dart(filename = "testset.csv",covfilename = " ind_metrics.csv")
+#  gl <- gl.read.dart(filename = "testset.csv", covfilename = " ind_metrics.csv")
 #  
 
 ## ------------------------------------------------------------------------
@@ -52,6 +53,9 @@ nPop(gl)
 ## ------------------------------------------------------------------------
 levels(pop(gl))[1:5]
 
+## ---- eval=FALSE---------------------------------------------------------
+#  gl <- gl.read.dart(filename="mydata.csv", covfilename = "my.metadata.csv")
+
 ## ------------------------------------------------------------------------
 #Only the entries for the first ten individuals are shown
 gl@other$loc.metrics$RepAvg[1:10]
@@ -62,6 +66,44 @@ names(gl@other$loc.metrics)
 ## ------------------------------------------------------------------------
 #only first 10 entries showns
 gl@other$ind.metrics$sex[1:10]
+
+## ------------------------------------------------------------------------
+read.csv( paste(.libPaths()[1],"/dartR/extdata/platy.csv",sep="" ))
+
+## ------------------------------------------------------------------------
+#you might need to install PopGenReport via
+#install.packages("PopGenReport")
+library(PopGenReport) 
+platy <- read.genetable( paste(.libPaths()[1],"/dartR/extdata/platy.csv",
+sep="" ), ind=1, pop=2, lat=3, long=4, other.min=5, other.max=6, oneColPerAll=FALSE,sep="/")
+
+platy
+
+
+## ------------------------------------------------------------------------
+platy.gl <- (gi2gl(platy))
+
+## ------------------------------------------------------------------------
+platy.gl@other$ind.metrics <- platy.gl@other$data
+
+## ------------------------------------------------------------------------
+ts <- sapply(1:nLoc(platy.gl), function(x) paste(sample(c("A","T","G","C"), 50, replace = T),
+                                                 collapse = ""))
+df.loc <- data.frame(RepAvg = runif(nLoc(platy.gl)),  TrimmedSequence=ts)
+
+platy.gl@other$loc.metrics <- df.loc
+
+
+## ------------------------------------------------------------------------
+gl.report.callrate(platy.gl)
+gl2 <- gl.filter.repavg(platy.gl, t=0.5)
+
+## ------------------------------------------------------------------------
+platy.gl@position <- as.integer(runif(nLoc(platy.gl),2,49))
+platy.gl@loc.all <- testset.gl@loc.all[1:6]
+
+## ---- eval=FALSE---------------------------------------------------------
+#  gl2fasta(platy.gl)
 
 ## ------------------------------------------------------------------------
 gl2 <- gl.filter.callrate(gl, method = "loc", threshold = 0.95)
@@ -78,7 +120,7 @@ gl2 <- gl.filter.repavg(gl, t=1)
 #  
 
 ## ------------------------------------------------------------------------
-gl2 <- gl.filter.monomorphs(gl)
+gl2 <- gl.filter.monomorphs(gl, v=0)
 
 ## ------------------------------------------------------------------------
 gl2 <- gl.filter.hamming(testset.gl, t=0.25, probar = F)
@@ -119,9 +161,9 @@ indNames(gl)[1:10]
 ## ------------------------------------------------------------------------
 gl.make.recode.ind(gl, outfile=file.path(tempdir(),"new_ind_assignments.csv"))
 
-## ------------------------------------------------------------------------
-glnew3 <- gl.recode.ind(gl, ind.recode=file.path(tempdir(),"new_ind_assignments.csv"))
-
+## ---- eval=FALSE---------------------------------------------------------
+#  glnew3 <- gl.recode.ind(gl, ind.recode=file.path(tempdir(),"new_ind_assignments.csv"))
+#  
 
 ## ---- eval=F-------------------------------------------------------------
 #  gl <- gl.edit.recode.ind(gl, ind.recode=file.path(tempdir(),"new_ind_assignments.csv"))
@@ -206,7 +248,7 @@ levels(pop(glnew)) <- c(rep("Cooper",13), rep("MDB", 8 ), rep("Emmac_Coast",7),"
 gl.pcoa.plot(pc, glnew, labels="pop", xaxis=1, yaxis=2)
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  gl.pcoa.plot(pc, gl.new, labels="interactive", xaxis=1, yaxis=2)
+#  gl.pcoa.plot(pc, glnew, labels="interactive", xaxis=1, yaxis=2)
 #  ggplotly()
 #  
 
@@ -227,6 +269,9 @@ gl.tree.nj(glnew, type="fan")
 #  gl <- testset.gl
 #  gl.collapse.recursive(gl, t=0)
 #  
+
+## ---- fig.height=4-------------------------------------------------------
+gl <- gl.ibd(gl=testset.gl[1:180,])
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  gl <- testset.gl
@@ -255,13 +300,20 @@ gl.report.bases(testset.gl)
 gl.report.bases(testset.gl)
 
 ## ------------------------------------------------------------------------
+x <- gl.report.pa(testset.gl, id="UC_00146", nmin=10, t=0)
+
+## ---- fig.height=4-------------------------------------------------------
+x <- gl.assign(testset.gl, id="UC_00146", nmin=10, alpha=0.95, t=1)
+
+## ------------------------------------------------------------------------
+gl <- testset.gl
 gi <- gl2gi(gl, probar=FALSE)
 
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  gl2 <- gi2gl(gi)
 
-## ---- eval=TRUE----------------------------------------------------------
+## ---- eval=T-------------------------------------------------------------
 glnew <- gl2nhyb(gl, outfile = file.path(tempdir(),"nhyb.txt"))
 
 ## ---- eval=FALSE---------------------------------------------------------
