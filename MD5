@@ -1,8 +1,8 @@
-4f7f8e8f0187e1583efda37d7520edcd *DESCRIPTION
+68ac71861e274ef3282e83802d558b24 *DESCRIPTION
 f6fc2e93454c668461f9db8888859e94 *NAMESPACE
 d6c9b466fa506552fece21ab5df147d1 *R/dart2genlight.r
 b9480e874a33d7b9e07b2c9b9d259989 *R/datasets.r
-bf7192fb5edb272dbc8cd25e1d143bed *R/gi2gl.R
+9f209b09ad65c9ff7caabf07e4ce621d *R/gi2gl.R
 2fcea5d9fdd46ff5e6eda494c912acc1 *R/gl.assign.r
 f01a1ed01c7df9757f7dbd3837a8c4a5 *R/gl.collapse.r
 2fc4f6505c35b427eb42f4b24bf9c987 *R/gl.collapse.recursive.r
@@ -26,7 +26,7 @@ a28582c384c1dc6a1f38c3b2f733bd13 *R/gl.outflank.r
 e4805a2c0ac2207877cd337ed6a74254 *R/gl.pcoa.plot.3d.r
 7c3d3fe252e5ee6262a05c09d523ad67 *R/gl.pcoa.plot.r
 47011cc35bf3941c204c319ed651ada9 *R/gl.pcoa.pop.r
-472c17c43af367427f1b581806b369c4 *R/gl.pcoa.r
+0edd409c276c77ee9eb0f670652b73ac *R/gl.pcoa.r
 0b78aa91409e02595513a751243c6ace *R/gl.pcoa.scree.r
 2e4f6c89da53486828562ab37a0c6e9b *R/gl.percent.freq.r
 e4ce035e01da78f059f2a2bbca2f189a *R/gl.read.dart.r
@@ -66,15 +66,15 @@ f855f452dadc428070ea1484a40ef13b *R/util.outflank.diploids.r
 f4ba4b767d3ed35af903dcb5d98dc6f0 *R/utils.hwe.r
 721106873d53bf96ef11f300a9c0de0a *build/vignette.rds
 e4a8e161eaa78a7c3e63637eb6a491e3 *data/testset.gl.rda
-ef91d927d5d2a125cef90bdd90918a60 *inst/doc/IntroTutorial_dartR.R
-5330b3df9ab5352c4ca33152b69121b3 *inst/doc/IntroTutorial_dartR.Rmd
-5da094a10d7278c4bad9ecdf04dde2e4 *inst/doc/IntroTutorial_dartR.pdf
+715b8ed979c7adf6cbcd6996d619aa60 *inst/doc/IntroTutorial_dartR.R
+8127ebeb7176c43716d670ae1be2dec4 *inst/doc/IntroTutorial_dartR.Rmd
+04d3b0979f65b214453f8b99ce137aab *inst/doc/IntroTutorial_dartR.pdf
 a398e58f8cde3aadff0237edcf6fd3e1 *inst/extdata/platy.csv
 9acb8448800def76024393c9790ff88d *inst/extdata/testset_SNPs_2Row.csv
 c8c97f53ba2b1a569b1a1ed30e30c4a2 *inst/extdata/testset_metadata.csv
 a7794933b51595f2eac07013052678d5 *inst/extdata/testset_pop_recode.csv
 eaf23e9f76c61b5ff63bdc38480156d6 *man/dart2genlight.Rd
-527b546dd619cef4859202d106a7f685 *man/gi2gl.Rd
+9a2fd98f4705a29cd00c4cc377b647cd *man/gi2gl.Rd
 8013500f32879e13d71bf3382e080776 *man/gl.assign.Rd
 54fcec24a074c83f51d0a6e1e6c592a6 *man/gl.collapse.Rd
 73d45b8acd30ee93094085581090d097 *man/gl.collapse.recursive.Rd
@@ -95,7 +95,7 @@ e52da05bfb54a2866942426a204807fb *man/gl.hwe.pop.Rd
 2c50948b5d11892a681500ae8dc63e61 *man/gl.make.recode.ind.Rd
 7456c9ae128d8d7aea668f1accb28d6b *man/gl.make.recode.pop.Rd
 e64dfcec85cfd81f97d8885f0633cfef *man/gl.outflank.Rd
-94ec59329711bb5ccaf0e6a4d86ed824 *man/gl.pcoa.Rd
+fdc0b44128f89af1396cb1c1a2b30620 *man/gl.pcoa.Rd
 f88bc3fa216fcd992674975e58358e64 *man/gl.pcoa.plot.3d.Rd
 012708550ec5940ca2450598a1bb2e74 *man/gl.pcoa.plot.Rd
 f5ba2554037088c414a8890bd735fcf7 *man/gl.pcoa.pop.Rd
@@ -138,7 +138,7 @@ ef6824856ccb91e80131b80b490ddf47 *man/testset_pop_recode.Rd
 64e00e73798a50ae8642bdfac9a9b5c5 *man/util.outflank.plotter.Rd
 a68601b73d93166ba4b6a06442535fb6 *man/utils.hamming.Rd
 dc132e9af8b6f6b8ae0ecefe4acde4d1 *man/utils.hwe.Rd
-5330b3df9ab5352c4ca33152b69121b3 *vignettes/IntroTutorial_dartR.Rmd
+8127ebeb7176c43716d670ae1be2dec4 *vignettes/IntroTutorial_dartR.Rmd
 0983143995961d935b1ab4cbf3fba026 *vignettes/box2.tex
 e4bb96c493efeef3800e1107b8920a92 *vignettes/figures/dartRlogo.png
 fea969114ad20cf5a799131b280d2e83 *vignettes/figures/dartdata.png

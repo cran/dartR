@@ -80,8 +80,11 @@ sep="" ), ind=1, pop=2, lat=3, long=4, other.min=5, other.max=6, oneColPerAll=FA
 platy
 
 
-## ------------------------------------------------------------------------
-platy.gl <- (gi2gl(platy))
+## ---- eval=FALSE---------------------------------------------------------
+#  platy.gl <- (gi2gl(platy)
+
+## ---- echo=FALSE---------------------------------------------------------
+platy.gl <- (gi2gl(platy, parallel = FALSE))
 
 ## ------------------------------------------------------------------------
 platy.gl@other$ind.metrics <- platy.gl@other$data
@@ -116,7 +119,7 @@ gl2 <- gl.filter.callrate(gl, method="ind", threshold = 0.90)
 gl2 <- gl.filter.repavg(gl, t=1)
 
 ## ---- eval=F, echo=F-----------------------------------------------------
-#  gl2 <- gl.filter.dups(gl)
+#  gl2 <- gl.filter.secondary(gl)
 #  
 
 ## ------------------------------------------------------------------------
