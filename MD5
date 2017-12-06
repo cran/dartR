@@ -1,5 +1,5 @@
-68ac71861e274ef3282e83802d558b24 *DESCRIPTION
-f6fc2e93454c668461f9db8888859e94 *NAMESPACE
+eca70756917ad291aa300de8313fe346 *DESCRIPTION
+b8c1ed989c44fb0f4dfd74fbe0ac82b5 *NAMESPACE
 d6c9b466fa506552fece21ab5df147d1 *R/dart2genlight.r
 b9480e874a33d7b9e07b2c9b9d259989 *R/datasets.r
 9f209b09ad65c9ff7caabf07e4ce621d *R/gi2gl.R
@@ -39,6 +39,7 @@ e4ce035e01da78f059f2a2bbca2f189a *R/gl.read.dart.r
 3695bdc3d9459630acce39d05b87342c *R/gl.report.heterozygosity.r
 f843aac038c446a521e3ad9497bd5de2 *R/gl.report.hwe.r
 92a4a88c0bb890acdb640849ff333fea *R/gl.report.ld.r
+7f4431c13eba17db56086d976b78c70a *R/gl.report.maf.r
 9c509c78c6d8092c18a2a0888113d09e *R/gl.report.monomorphs.r
 d20de83b8422d5466401ea279c5ed4a3 *R/gl.report.pa.r
 582560f9746799c33d274220dea29c2c *R/gl.report.repavg.r
@@ -50,9 +51,11 @@ c4bd136a8e7f6d90d4744a7750325ef4 *R/gl2demerelate.r
 3181f1ba1c52c897d097f81db7852c21 *R/gl2fasta.r
 ee981ebaaeade81eabc9957ab0bfb358 *R/gl2faststructure.r
 aaa5fb01af33407a2ad16cb760140321 *R/gl2gds.r
-fd3e98b11294444f3ddde865b10feb8f *R/gl2gi.r
+3f54747d89462e63159f27ad8f35aa77 *R/gl2gi.r
 74857b78926b57770550b17b7cf7f0ca *R/gl2nhyb.r
 d5814e8a9dddc66026a29abedf6761c2 *R/gl2phylip.r
+17d689897025672d2f53a5e25ef76871 *R/gl2shp.R
+15c934fb0e2378d3d645db7166d5f344 *R/gl2structure.r
 363665c16807406c26cb35fb969211cb *R/imports.r
 51fb0cf19b074b298039ac7e1ddca8d8 *R/is.fixed.r
 fb5447a29c166a479b43ec87ff144b85 *R/prob.hwe.r
@@ -66,9 +69,9 @@ f855f452dadc428070ea1484a40ef13b *R/util.outflank.diploids.r
 f4ba4b767d3ed35af903dcb5d98dc6f0 *R/utils.hwe.r
 721106873d53bf96ef11f300a9c0de0a *build/vignette.rds
 e4a8e161eaa78a7c3e63637eb6a491e3 *data/testset.gl.rda
-715b8ed979c7adf6cbcd6996d619aa60 *inst/doc/IntroTutorial_dartR.R
-8127ebeb7176c43716d670ae1be2dec4 *inst/doc/IntroTutorial_dartR.Rmd
-04d3b0979f65b214453f8b99ce137aab *inst/doc/IntroTutorial_dartR.pdf
+3ff3a88448ffb83b6bb2c58fd0c6c314 *inst/doc/IntroTutorial_dartR.R
+ead1b085b18ab7d842840ab974435952 *inst/doc/IntroTutorial_dartR.Rmd
+381971d374b5a6401e7b42a3dfd9e0a1 *inst/doc/IntroTutorial_dartR.pdf
 a398e58f8cde3aadff0237edcf6fd3e1 *inst/extdata/platy.csv
 9acb8448800def76024393c9790ff88d *inst/extdata/testset_SNPs_2Row.csv
 c8c97f53ba2b1a569b1a1ed30e30c4a2 *inst/extdata/testset_metadata.csv
@@ -111,6 +114,7 @@ b9223c6ccafcdcf6fd004650a5d1f7da *man/gl.report.hamming.Rd
 dbcebd6271b71e0b401dd47a048aab02 *man/gl.report.heterozygosity.Rd
 a96fa8c8481d792c5d9ca2f9491efd02 *man/gl.report.hwe.Rd
 04112b47e7e861c7ae4970a98b70dea6 *man/gl.report.ld.Rd
+a2030bbd83a6fe01f9862828e6f98978 *man/gl.report.maf.Rd
 0a1d57be9403e840856f9b530a04f1e4 *man/gl.report.monomorphs.Rd
 6beb8a558bda451492973ffbef79bb87 *man/gl.report.pa.Rd
 705e413ffd6d0e71f55db8f8df141046 *man/gl.report.repavg.Rd
@@ -122,9 +126,11 @@ f35735b9d2e1f1c4e9a1120220cd552d *man/gl.tree.nj.Rd
 ed201d3624794c4b91a40761d5a56ee6 *man/gl2fasta.Rd
 2bea15e754dc5d57c590e1ca38694a63 *man/gl2faststructure.Rd
 62d69a3109558f10258840ab0773a129 *man/gl2gds.Rd
-8e5831766f0a7a1f7212c5b98a79326b *man/gl2gi.Rd
+04011951e9e58255063fd906ab899dfd *man/gl2gi.Rd
 913b89742d17b4348ce9cf9d67ff4053 *man/gl2nhyb.Rd
 3e738cdf8057ef7407503e1f516f4b92 *man/gl2phylip.Rd
+5bbf6bcf66038b486064d70ff676a5e5 *man/gl2shp.Rd
+d67658ef6270b259fc77d93aceafd77e *man/gl2structure.Rd
 2b407864ccf1a95528a21577d807355a *man/is.fixed.Rd
 e9435432675c1eb5dbf62409c6254cf6 *man/platy.Rd
 eb7a62cafa23f7a84ed13680bd49b163 *man/prob.hwe.Rd
@@ -138,7 +144,7 @@ ef6824856ccb91e80131b80b490ddf47 *man/testset_pop_recode.Rd
 64e00e73798a50ae8642bdfac9a9b5c5 *man/util.outflank.plotter.Rd
 a68601b73d93166ba4b6a06442535fb6 *man/utils.hamming.Rd
 dc132e9af8b6f6b8ae0ecefe4acde4d1 *man/utils.hwe.Rd
-8127ebeb7176c43716d670ae1be2dec4 *vignettes/IntroTutorial_dartR.Rmd
+ead1b085b18ab7d842840ab974435952 *vignettes/IntroTutorial_dartR.Rmd
 0983143995961d935b1ab4cbf3fba026 *vignettes/box2.tex
 e4bb96c493efeef3800e1107b8920a92 *vignettes/figures/dartRlogo.png
 fea969114ad20cf5a799131b280d2e83 *vignettes/figures/dartdata.png
