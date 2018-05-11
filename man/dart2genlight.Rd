@@ -4,12 +4,15 @@
 \alias{dart2genlight}
 \title{Convert DarT to genlight}
 \usage{
-dart2genlight(dart, covfilename = NULL, probar = TRUE)
+dart2genlight(dart, ind.metafile = NULL, covfilename = NULL,
+  probar = TRUE)
 }
 \arguments{
 \item{dart}{a dart object created via read.dart}
 
-\item{covfilename}{optional file in csv format with covariates for each individual (see details for explanation)}
+\item{ind.metafile}{optional file in csv format with covariates for each individual (see details for explanation)}
+
+\item{covfilename}{depreciated, use parameter ind.metafile}
 
 \item{probar}{show progress bar}
 }
@@ -21,9 +24,4 @@ converts a dart file (read via \code{read.dart}) into an genlight object \code{\
 }
 \details{
 the covariate file needs to have very specific headings. First an heading called id. Here the ids have to match the ids in the dart object \code{colnames(dart[[4]])}. The following column headings are optional. pop: specifies the population membership of each individual. lat and lon specify spatial coordinates (perferable in decimal degrees WGS1984 format). Additional columns with individual covariates can be imported (e.g. age, gender).
-}
-\examples{
-\dontrun{
-dgl <- dart2genlight(dart, "covariates.csv")
-}
 }

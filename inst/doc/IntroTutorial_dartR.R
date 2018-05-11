@@ -35,13 +35,13 @@ m <- as.matrix(gl)
 as.matrix(gl)[1:5,1:3]
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  gl <- gl.read.dart(filename = "testset.csv", covfilename = " ind_metrics.csv")
-#  
+#  gl <- gl.read.dart(filename = "testset.csv", ind.metafile = " ind_metrics.csv")
 
 ## ------------------------------------------------------------------------
 dartfile <- system.file("extdata","testset_SNPs_2Row.csv", package="dartR")
-covfilename <- system.file("extdata","testset_metadata.csv", package="dartR")
-gl <- gl.read.dart(filename=dartfile, covfilename = covfilename, probar=FALSE)
+
+metafile <- system.file("extdata","testset_metadata.csv", package="dartR")
+gl <- gl.read.dart(filename=dartfile, ind.metafile = metafile, probar=FALSE)
 
 ## ------------------------------------------------------------------------
 gl
@@ -58,7 +58,8 @@ nPop(gl)
 levels(pop(gl))[1:5]
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  gl <- gl.read.dart(filename="mydata.csv", covfilename = "my.metadata.csv")
+#  
+#  gl <- gl.read.dart(filename="mydata.csv", ind.metafile = "my.metadata.csv")
 
 ## ------------------------------------------------------------------------
 #Only the entries for the first ten individuals are shown
@@ -130,7 +131,7 @@ gl2 <- gl.filter.repavg(gl, t=1)
 gl2 <- gl.filter.monomorphs(gl, v=0)
 
 ## ------------------------------------------------------------------------
-gl2 <- gl.filter.hamming(testset.gl, t=0.25, probar = F)
+gl2 <- gl.filter.hamming(testset.gl, t=0.25, pb = F)
 
 ## ---- eval=F-------------------------------------------------------------
 #  gl2 <- gl.filter.callrate(gl, method = "loc", threshold = 0.95)
@@ -147,33 +148,60 @@ table(pop(gl))
 ## ---- fig.height=5-------------------------------------------------------
 barplot(table(pop(gl)), las=2)
 
-## ---- eval=T-------------------------------------------------------------
-gl.make.recode.pop(gl, outfile = file.path(tempdir(),"new_pop_assignments.csv"))
+## ---- eval=FALSE---------------------------------------------------------
+#  glnew3 <- gl.keep.pop(gl, pop.list=c("EmsubRopeMata","EmvicVictJasp"))
+
+## ---- eval=FALSE---------------------------------------------------------
+#  glnew3 <- gl.drop.pop(gl, pop.list=c("EmsubRopeMata","EmvicVictJasp"))
+
+## ---- eval=FALSE---------------------------------------------------------
+#  glnew3 <- gl.merge.pop(gl, old=c("EmsubRopeMata","EmvicVictJasp"), new="outgroup")
+
+## ---- eval=FALSE---------------------------------------------------------
+#  glnew3 <- gl.merge.pop(gl, old="EmsubRopeMata", new="Emydura_victoriae")
 
 ## ------------------------------------------------------------------------
-glnew <- gl.recode.pop(gl, pop.recode=file.path(tempdir(),"new_pop_assignments.csv"))
+#individual names
+indNames(gl)
+
+
+## ---- eval=FALSE---------------------------------------------------------
+#  glnew3 <- gl.keep.ind(gl, ind.list=c("AA019073","AA004859"))
+
+## ---- eval=FALSE---------------------------------------------------------
+#  glnew3 <- gl.drop.pop(gl, ind.list=c("AA019073","AA004859"))
+
+## ---- eval=FALSE---------------------------------------------------------
+#  gl.make.recode.pop(gl, outfile = "new_pop_assignments.csv")
+#  
+
+## ---- eval=FALSE---------------------------------------------------------
+#  
+#  glnew <- gl.recode.pop(gl, pop.recode="new_pop_assignments.csv")
+#  
 
 ## ------------------------------------------------------------------------
 levels(pop(gl))
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  glnew2 <- gl.edit.recode.pop(gl, pop.recode = file.path(tempdir(),"new_pop_assingments.csv"))
+#  
+#  glnew2 <- gl.edit.recode.pop(gl)
+#  
 
 ## ------------------------------------------------------------------------
 #only first 10 entries are shown
 indNames(gl)[1:10]
 
 
-
-## ------------------------------------------------------------------------
-gl.make.recode.ind(gl, outfile=file.path(tempdir(),"new_ind_assignments.csv"))
+## ---- eval=FALSE---------------------------------------------------------
+#  gl.make.recode.ind(gl, outfile="new_ind_assignments.csv")
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  glnew3 <- gl.recode.ind(gl, ind.recode=file.path(tempdir(),"new_ind_assignments.csv"))
+#  glnew3 <- gl.recode.ind(gl, ind.recode="new_ind_assignments.csv")
 #  
 
 ## ---- eval=F-------------------------------------------------------------
-#  gl <- gl.edit.recode.ind(gl, ind.recode=file.path(tempdir(),"new_ind_assignments.csv"))
+#  gl <- gl.edit.recode.ind(gl, ind.recode="new_ind_assignments.csv")
 
 ## ------------------------------------------------------------------------
 gl_new <- gl[gl$pop!="EmmacBrisWive", ]
@@ -211,7 +239,6 @@ dim(glsub2@other$loc.metrics)
 ## ------------------------------------------------------------------------
 gl.dist(gl[1:7,1:100], method="euclidean")
 gl.dist(gl[1:7, 1:100], method="manhattan")
-
 
 ## ------------------------------------------------------------------------
 glind7 <- gl[1:7,]  #copy and store the original dataset in glind
@@ -279,18 +306,29 @@ gl.pcoa.scree(pc)
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  gl.pcoa.plot.3d(pc, glnew)
+#  
 
 ## ------------------------------------------------------------------------
 gl.tree.nj(glnew, type="fan")
 
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  gl.collapse.recursive(gl, t=0)
+#  fd <- gl.collapse.recursive(gl, t=0)
 
 ## ---- echo=FALSE, eval=FALSE---------------------------------------------
 #  gl <- testset.gl
-#  gl.collapse.recursive(gl, t=0)
+#  fd <- gl.collapse.recursive(gl, t=0)
 #  
+
+## ---- echo=FALSE, eval=FALSE---------------------------------------------
+#  gl <- testset.gl
+#  fd <- gl.collapse.recursive(gl, test=TRUE, delta=0.02, reps=1000, t=0, v=3)
+#  fd.sig <- gl.collapse.pval(fd, prefix="fd_sig", delta=0.02, alpha=0.05, v=3)
+#  
+
+## ---- eval=FALSE---------------------------------------------------------
+#  gl <- fd.sig$gl
+#  phy <- gl2phylip(gl, outfile="turtle.phy", bstrap=1000)
 
 ## ---- fig.height=4-------------------------------------------------------
 gl <- gl.ibd(gl=testset.gl[1:180,])
@@ -307,7 +345,6 @@ gl.report.bases(testset.gl)
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  gl2fasta(gl, method=4, outfile="nohets.fasta")
-#  
 #  
 
 ## ---- eval=FALSE---------------------------------------------------------
@@ -335,12 +372,8 @@ gi <- gl2gi(gl, v=0)
 ## ---- eval=FALSE---------------------------------------------------------
 #  gl2 <- gi2gl(gi)
 
-## ---- eval=T-------------------------------------------------------------
-glnew <- gl2nhyb(gl, outfile = file.path(tempdir(),"nhyb.txt"))
-
-## ---- eval=FALSE---------------------------------------------------------
-#  gl.new <- gl2nhyb(gl, outfile = "nhyb.txt", p0 = NULL,p1 = NULL, t = 0,   m = "random")
-#  
+## ---- eval=F-------------------------------------------------------------
+#  glnew <- gl.nhybrids(testset.gl)
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  glnew <- gl2phylip(outfile = "phyinput.txt")
@@ -348,6 +381,7 @@ glnew <- gl2nhyb(gl, outfile = file.path(tempdir(),"nhyb.txt"))
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  gl.new <- gl2phylip(outfile = "phyinput.txt", bstrap = 1000)
+#  
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  gl2gds(gl, outfile="test.gds")

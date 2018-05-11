@@ -4,7 +4,7 @@
 \alias{gl2fasta}
 \title{Concatenates DArT trimmed sequences and outputs a fastA file.}
 \usage{
-gl2fasta(gl, method = 1, outfile = "output.fasta")
+gl2fasta(gl, method = 1, outfile = "output.fasta", outpath = tempdir())
 }
 \arguments{
 \item{gl}{-- name of the DArT genlight object [required]}
@@ -12,6 +12,8 @@ gl2fasta(gl, method = 1, outfile = "output.fasta")
 \item{method}{-- 1 | 2 | 3 | 4. Type method=0 for a list of options  [method=1]}
 
 \item{outfile}{-- name of the output file (fasta format) [output.fasta]}
+
+\item{outpath}{-- path where to save the output file (set to tempdir by default)}
 }
 \value{
 A new gl object with all loci rendered homozygous
