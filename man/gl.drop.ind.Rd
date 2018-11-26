@@ -4,14 +4,14 @@
 \alias{gl.drop.ind}
 \title{Remove specified individuals from a genelight \{adegenet\} object}
 \usage{
-gl.drop.ind(x, ind.list, recalc = FALSE, mono.rm = FALSE, v = 2)
+gl.drop.ind(x, ind.list, recalc = FALSE, mono.rm = TRUE, v = 2)
 }
 \arguments{
 \item{x}{-- name of the genlight object containing SNP genotypes or a genind object containing presence/absence data [required]}
 
 \item{ind.list}{-- a list of individuals to be removed [required]}
 
-\item{recalc}{-- Recalculate the locus metadata statistics [default TRUE]}
+\item{recalc}{-- Recalculate the locus metadata statistics [default FALSE]}
 
 \item{mono.rm}{-- Remove monomorphic loci [default TRUE]}
 
@@ -37,5 +37,5 @@ The script returns a genlight object with the individuals deleted and, optionall
 \code{\link{gl.recalc.metrics}}
 }
 \author{
-Arthur Georges (glbugs@aerg.canberra.edu.au)
+Arthur Georges (bugs? Post to \url{https://groups.google.com/d/forum/dartr})
 }

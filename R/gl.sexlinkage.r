@@ -17,7 +17,7 @@
 #' @param v -- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2]
 #' @return The list of sex specific loci
 #' @export
-#' @author Arthur Georges (glbugs@aerg.canberra.edu.au)
+#' @author Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 #' @examples
 #' result <- gl.sexlinkage(testset.gl)
 
@@ -63,11 +63,9 @@ gl.sexlinkage <- function(x, t.het=0, t.hom=0, v=2) {
 # Combine the two files
   Trimmed_Sequence <- x@other$loc.metrics$TrimmedSequence
   df <- cbind(dff,dfm,Trimmed_Sequence)
-  a <- strsplit(row.names(df), split="\\|")
+  a <- strsplit(row.names(df), split="-")
   a <- do.call(rbind,a)
-  a <- strsplit(a[,2],"-")
-  a <- do.call(rbind,a)
-  a <- as.numeric(a[,1])
+  a <- as.numeric(a[,2])
   
   df$Trimmed_Sequence <- as.character(df$Trimmed_Sequence)
   b <- substr(df$Trimmed_Sequence,1,a)

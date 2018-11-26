@@ -18,9 +18,9 @@
 #' @param v -- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2]
 #' @return NULL
 #' @export
-#' @author Arthur Georges (glbugs@aerg.canberra.edu.au)
+#' @author Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 #' @examples
-#' gl2svdquartets(testset.gl)
+#' gl2svdquartets(testset.gl[1:20,1:100])
 
 gl2svdquartets <- function(x, outfile="svd.nex", outpath=tempdir(), method=2, v=2) {
 
@@ -30,12 +30,14 @@ gl2svdquartets <- function(x, outfile="svd.nex", outpath=tempdir(), method=2, v=
   if (v > 1) {cat(paste("    Extacting SNP bases and creating records for each individual\n"))}
 
 # Extract the reference base and the alternate base for each locus
-  snp <- as.character(x@other$loc.metrics$SNP)
-  snp <- strsplit(snp,":")
-  snp <- unlist(lapply(snp, `[`, 2))
-  snp <- strsplit(snp,">")
-  ref <- unlist(lapply(snp, `[`, 1))
-  alt <- unlist(lapply(snp, `[`, 2))
+  #snp <- as.character(x@other$loc.metrics$SNP)
+  #snp <- strsplit(snp,":")
+  #snp <- unlist(lapply(snp, `[`, 2))
+  #snp <- strsplit(snp,">")
+  ref <- unname(sapply(x@loc.all, function(x) strsplit(x, split = "/")[1][[1]][1]))
+  #ref <- unlist(lapply(snp, `[`, 1))
+  alt <-  unname(sapply(x@loc.all, function(x) strsplit(x, split = "/")[1][[1]][2]))
+  #alt <- unlist(lapply(snp, `[`, 2))
   
 # Sort the data on population
   df <- data.frame(as.matrix(x))

@@ -21,8 +21,8 @@ but the call rate will change when some individuals are removed from the dataset
 and places these recalculated values in the appropriate place in the genlight object.
 }
 \examples{
-result <- dartR:::utils.recalc.callrate(testset.gl)
+#result <- dartR:::utils.recalc.callrate(testset.gl)
 }
 \author{
-Arthur Georges (glbugs@aerg.canberra.edu.au)
+Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 }

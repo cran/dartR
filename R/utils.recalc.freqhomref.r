@@ -8,9 +8,9 @@
 #' @param x -- name of the genlight object containing the SNP data [required]
 #' @param v -- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2]
 #' @return The modified genlight object
-#' @author Arthur Georges (glbugs@aerg.canberra.edu.au)
+#' @author Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 #' @examples
-#' result <- dartR:::utils.recalc.freqhomref(testset.gl)
+#' #result <- dartR:::utils.recalc.freqhomref(testset.gl)
 
 utils.recalc.freqhomref <- function(x, v=2) {
 
@@ -20,7 +20,12 @@ utils.recalc.freqhomref <- function(x, v=2) {
   if (v > 0) {
     cat("Starting utils.recalc.freqhomref: Recalculating frequency of homozygotes, reference allele\n")
   }
-  
+  if (is.null(x@other$loc.metrics$FreqHomRef)) {
+    x@other$loc.metrics$FreqHomRef <- array(NA,nLoc(x))
+    if (v >= 3){
+      cat("  Locus metric FreqHomRef does not exist, creating slot @other$loc.metrics$FreqHomRef\n")
+    }
+  }  
 
   # Do the deed
      t <- as.matrix(x)

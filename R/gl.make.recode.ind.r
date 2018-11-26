@@ -20,14 +20,14 @@
 #' @param outpath -- path where to save the output file (set to tempdir by default)
 #' @return A vector containing the new individual names
 #' @export
-#' @author Arthur Georges (glbugs@aerg.canberra.edu.au)
+#' @author Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 #' @examples
 #' result <- gl.make.recode.ind(testset.gl, outfile="Emmac_recode_ind.csv")
 
  gl.make.recode.ind <- function(x, outfile="default_recode_ind.csv", outpath=tempdir()) {
  outfile <- file.path(outpath, outfile)
  mat <- cbind(indNames(x),indNames(x))
- write.table(mat, file=outfile, sep=",", row.names=FALSE, col.names=FALSE)
+ write.table(mat, file=outfile, sep="," , row.names=FALSE, col.names=FALSE)
  
  cat(paste("Proforma recode table written to:",outfile,"\n"))
  

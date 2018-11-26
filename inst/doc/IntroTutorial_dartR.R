@@ -5,20 +5,18 @@ knitr::opts_chunk$set(echo = TRUE)
 #  install.packages("dartR")
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  # Install and attach library dartR
-#    install.packages("devtools")
-#    library(devtools)
-#    source("http://bioconductor.org/biocLite.R")
-#    biocLite("qvalue", suppressUpdates=T)
-#    biocLite("SNPRelate", suppressUpdates=T)
-#    install_github("green-striped-gecko/dartR")
+#  install.packages("devtools")
+#  library(devtools)
+#  install.packages("BiocManager")
+#  BiocManager::install(c("SNPRelate", "qvalue"))
+#  install_github("green-striped-gecko/dartR")
+#  library(dartR)
 
 ## ------------------------------------------------------------------------
  library(dartR)
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  source("https://bioconductor.org/biocLite.R")
-#  biocLite("SNPRelate")
+#  BiocManager::install(c("SNPRelate", "qvalue"))
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  # Set the default working directory (change this to suit)
@@ -237,14 +235,14 @@ dim(glsub2@other$ind.metrics)
 dim(glsub2@other$loc.metrics)
 
 ## ------------------------------------------------------------------------
-gl.dist(gl[1:7,1:100], method="euclidean")
-gl.dist(gl[1:7, 1:100], method="manhattan")
+gl.dist.pop(gl[1:7,1:100], method="euclidean")
+gl.dist.pop(gl[1:7, 1:100], method="manhattan")
 
 ## ------------------------------------------------------------------------
 glind7 <- gl[1:7,]  #copy and store the original dataset in glind
 pop(glind7) <- indNames(glind7)# redefine the population information
 
-gl.dist(glind7[1:7,], method="euclidean")
+gl.dist.pop(glind7[1:7,], method="euclidean")
 data.frame(ind=1:7, indNames=indNames(gl)[1:7], pop=pop(gl)[1:7])
 
 ## ---- eval=FALSE---------------------------------------------------------

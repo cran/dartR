@@ -9,9 +9,9 @@
 #' @param method -- breakdown variable [default pop(x)]
 #' @param stat -- statistic to calculate: mean [only mean(x)/2 currently implemented]
 #' @return A matrix, populations (rows) by loci (columns), showing the statistic [mean/2]
-#' @author Arthur Georges (glbugs@aerg.canberra.edu.au)
+#' @author Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 #' @examples
-#' result <- dartR:::gl.gene.freq(testset.gl, method=pop(gl), stat="mean")
+#' #result <- dartR:::gl.gene.freq(testset.gl, method=pop(gl), stat="mean")
 
 gl.gene.freq <- function(gl, method=pop(gl), stat="mean") {
   

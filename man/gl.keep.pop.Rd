@@ -4,14 +4,14 @@
 \alias{gl.keep.pop}
 \title{Remove all but specified populations from a genelight \{adegenet\} object}
 \usage{
-gl.keep.pop(x, pop.list, recalc = FALSE, mono.rm = FALSE, v = 2)
+gl.keep.pop(x, pop.list, recalc = FALSE, mono.rm = TRUE, v = 2)
 }
 \arguments{
 \item{x}{-- name of the genlight object containing SNP genotypes or a genind object containing presence/absence data [required]}
 
 \item{pop.list}{-- a list of populations to be kept [required]}
 
-\item{recalc}{-- Recalculate the locus metadata statistics [default TRUE]}
+\item{recalc}{-- Recalculate the locus metadata statistics [default FALSE]}
 
 \item{mono.rm}{-- Remove monomorphic loci [default TRUE]}
 
@@ -39,5 +39,5 @@ The script returns a genlight object with the new population assignments and the
 \code{\link{gl.recalc.metrics}}
 }
 \author{
-Arthur Georges (glbugs@aerg.canberra.edu.au)
+Arthur Georges (bugs? Post to \url{https://groups.google.com/d/forum/dartr})
 }
