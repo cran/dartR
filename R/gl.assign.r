@@ -33,35 +33,74 @@
 #' Each of these approaches provides evidence, none are 100% definitive. They need to be interpreted cautiously.
 #'
 #' @param x -- name of the input genlight object [required]
-#' @param id -- identity label of the focal individual whose provenance is unknown [required]
+#' @param unknown -- identity label of the focal individual whose provenance is unknown [required]
 #' @param nmin -- minimum sample size for a target population to be included in the analysis [default 10]
 #' @param dim -- number of dimensions to retain in the dimension reduction [default k, number of populations]
 #' @param alpha -- probability level for bounding ellipses in the PCoA plot [default 0.05]
 #' @param threshold -- populations to retain for consideration; those for which the focal individual has less than or equal to threshold loci with private alleles [default 0]
-#' @param v -- verbosity: 0, silent or errors only; 1, begin and end; 2, progress log; 3, progress and results; 5, full report [default 3]
+#' @param verbose -- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2 or as specified using gl.set.verbosity]
 #' @return A genlight object containing the focal individual (assigned to population "unknown") and #' populations for which the focal individual is not distinctive (number of loci with private alleles less than or equal to thresold t.
 #' @importFrom stats dnorm qnorm
 #' @export
-#' @author Arthur Georges (bugs? Post to \url{https://groups.google.com/d/forum/dartr})
+#' @author Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 #' @examples
 #' # Test run with a focal individual from the Macleay River (EmmacMaclGeor)
-#' x <- gl.assign(testset.gl, id="UC_00146", nmin=10, alpha=0.05, threshold=1)
-#' 
+#'   x <- gl.assign(testset.gl, unknown="UC_00146", nmin=10, 
+#'   alpha=0.05, threshold=1)
 
-gl.assign <- function (x, id, nmin=10, dim=NULL, alpha= 0.05, threshold=0, v=3) {
+gl.assign <- function (x, unknown, nmin=10, dim=NULL, alpha= 0.05, threshold=0, verbose=3) {
+
+# TRAP COMMAND, SET VERSION
   
-  # ERROR CHECKING
+  funname <- match.call()[[1]]
+  build <- "Jacob"
   
-  if(class(x)!="genlight") {
-    cat("Fatal Error: genlight object required!\n"); stop("Execution terminated\n")
+# SET VERBOSITY
+  
+  if (is.null(verbose)){ 
+    if(!is.null(x@other$verbose)){ 
+      verbose <- x@other$verbose
+    } else { 
+      verbose <- 2
+    }
+  } 
+  
+  if (verbose < 0 | verbose > 5){
+    cat(paste("  Warning: Parameter 'verbose' must be an integer between 0 [silent] and 5 [full report], set to 2\n"))
+    verbose <- 2
   }
   
+# FLAG SCRIPT START
+  
+  if (verbose >= 1){
+    if(verbose==5){
+      cat("Starting",funname,"[ Build =",build,"]\n")
+    } else {
+      cat("Starting",funname,"\n")
+    }
+  }
+  
+# STANDARD ERROR CHECKING
+  
+  if(class(x)!="genlight") {
+    stop("Fatal Error: genlight object required!\n")
+  }
+  
+  if (all(x@ploidy == 1)){
+    if (verbose >= 2){cat("  Processing  Presence/Absence (SilicoDArT) data\n")}
+    data.type <- "SilicoDArT"
+  } else if (all(x@ploidy == 2)){
+    if (verbose >= 2){cat("  Processing a SNP dataset\n")}
+    data.type <- "SNP"
+  } else {
+    stop("Fatal Error: Ploidy must be universally 1 (fragment P/A data) or 2 (SNP data)")
+  }
+
+# FUNCTION SPECIFIC ERROR CHECKING
+
   alpha <- 1-alpha
 
-  if(class(x)!="genlight") {
-    cat("Fatal Error: genlight object required for gl.recode.pop.r!\n"); stop()
-  }
-  if (!(id %in% indNames(x))) {
+  if (!(unknown %in% indNames(x))) {
     cat("Fatal Error: Unknown must be listed among the individuals in the genlight object!\n"); stop()
   }
   if (alpha > 1 || alpha < 0) {
@@ -79,19 +118,12 @@ gl.assign <- function (x, id, nmin=10, dim=NULL, alpha= 0.05, threshold=0, v=3) 
     cat("Warning: Threshold value cannot be negative, set to 0\n")
     threshold <- 0
   }
-  if (v < 0 | v > 5){
-    cat("    Warning: verbosity must be an integer between 0 [silent] and 5 [full report], set to 2\n")
-    v <- 2
-  }
-  
-  # FLAG SCRIPT START  
-  if (v >= 1) {
-    cat("Starting gl.assign: Assign and individual to a population\n\n")
-  }
-  
+
+# DO THE JOB
+
 # Identify populations that can be eliminated on the basis of private alleles
 # Retain the remainder for analysis
-  x2 <- gl.report.pa(x, id=id, nmin=nmin, threshold=threshold, v=v)
+  x2 <- utils.pa.ind(x,unknown = unknown,  nmin=nmin, verbose=verbose)
 
 # Check that there is more than one population to assign (excluding 'unknown')
   if (nPop(x2)==1) {
@@ -104,7 +136,7 @@ gl.assign <- function (x, id, nmin=10, dim=NULL, alpha= 0.05, threshold=0, v=3) 
   }
   cat("\n\nCOMPUTING ASSIGNMENT BASED ON CONFIDENCE ENVELOPES\n\n")
 # Ordinate a reduced space of K = nPop(x2) dimensions
-  pcoa <- gl.pcoa(x2, nfactors=nPop(x2),v=FALSE)
+  pcoa <- gl.pcoa(x2, nfactors=nPop(x2),verbose=FALSE)
 
 #  gl.pcoa.plot(pcoa,x2, xaxis=3, yaxis=4, ellipse=TRUE)
   
@@ -144,7 +176,7 @@ gl.assign <- function (x, id, nmin=10, dim=NULL, alpha= 0.05, threshold=0, v=3) 
   unknown <- as.numeric(unknown[1:dim])
   
 
-  cat("\nLikelihood Index for assignment of unknown",id,"to listed populations\n\n") 
+  cat("\nLikelihood Index for assignment of unknown",unknown,"to listed populations\n\n") 
 # For each population
   p <- as.factor(clouds[,"pop"])
   for (i in 1:length(levels(p))) {
@@ -191,8 +223,11 @@ gl.assign <- function (x, id, nmin=10, dim=NULL, alpha= 0.05, threshold=0, v=3) 
   cat("  CE is the value of the Index on the boundary of the",alpha*100,"% confidence envelope\n")
   cat("  Best assignment is the population with the largest value of the Index, in this case",best,"\n\n")
   
-  if (v >= 1) {
-    cat("Completed gl.assign\n\n")
+# FLAG SCRIPT END
+
+  if (verbose > 0) {
+    cat("Completed:",funname,"\n")
   }
+
   return(df)
 }

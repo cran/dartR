@@ -25,21 +25,27 @@
 #'@param node.label.color -- color of the text of the node labels [default: "black"]
 #'@param alpha -- upper threshold to determine which links between nodes to display [default: 0.995]
 #'@param title -- title for the plot [default: "Network based on G-matrix of genetic relatedness"]
-#'@param v -- verbosity. If zero silent, max 3.
+#'@param verbose -- verbosity. If zero silent, max 3.
 #'@return NULL 
-#'@importFrom igraph layout_with_kk layout_with_fr layout_with_drl graph_from_data_frame delete_edges V E 
 #'@importFrom grDevices rgb
 #'@importFrom graphics legend
 #'@export
-#'@author Arthur Georges (bugs? Post to \url{https://groups.google.com/d/forum/dartr})
+#'@author Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 #'  
 #'@examples
 #'#gl.grm.network(G,x)  
 
 #layout_with_kk layout_with_fr layout_with_drl graph_from_data_frame delete_edges V
 
-gl.grm.network <- function(G, x, method="fr", node.size=3, node.label=FALSE, node.label.size=0.7, node.label.color="black", alpha=0.004, title="Network based on G-matrix of genetic relatedness", v=3){
+gl.grm.network <- function(G, x, method="fr", node.size=3, node.label=FALSE, node.label.size=0.7, node.label.color="black", alpha=0.004, title="Network based on G-matrix of genetic relatedness", verbose=3){
 
+# CHECK IF PACKAGES ARE INSTALLED
+  pkg <- "igraph"
+  if (!(requireNamespace(pkg, quietly = TRUE))) {
+    stop("Package",pkg," needed for this function to work. Please install it.") } 
+  
+  
+  
   if(class(x)!="genlight") {
     cat("Fatal Error: genlight object required for gl.drop.pop.r!\n"); stop("Execution terminated\n")
   }
@@ -47,9 +53,9 @@ gl.grm.network <- function(G, x, method="fr", node.size=3, node.label=FALSE, nod
     cat("Warning: Layout method must be one of fr, or kk, or drl, set to fr\n")
     method <- "fr"
   }
-  if (v < 0 | v > 5){
+  if (verbose < 0 | verbose > 5){
     cat("Warning: Verbosity must take on an integer value between 0 and 5, set to 3\n")
-    v <- 3
+    verbose <- 3
   }
 
   d <- length(G[,1])
@@ -70,25 +76,25 @@ gl.grm.network <- function(G, x, method="fr", node.size=3, node.label=FALSE, nod
   nodes <- data.frame(cbind(x$ind.names, as.character(pop(x))))
   colnames(nodes) <- c("name","pop")
   
-  network<-graph_from_data_frame(d=links, vertices=nodes, directed=FALSE)
+  network<-igraph::graph_from_data_frame(d=links, vertices=nodes, directed=FALSE)
   
   colors = rainbow(nlevels(pop(x)))
   my_colors <- colors[pop(x)]
   
-  q <- quantile(links$weight, p = 1-alpha)
-  network.FS <- delete_edges(network, E(network)[links$weight < q ])
+  q <- stats::quantile(links$weight, p = 1-alpha)
+  network.FS <- igraph::delete_edges(network, igraph::E(network)[links$weight < q ])
   
   if (method=="fr"){
     layout.name <- "Fruchterman-Reingold layout"
-    l <- layout_with_fr(network.FS)
+    l <- igraph::layout_with_fr(network.FS)
   }
   if (method=="kk"){
     layout.name <- "Kamada-Kawai layout"
-    l <- layout_with_kk(network.FS)
+    l <- igraph::layout_with_kk(network.FS)
   }
   if (method=="drl"){
     layout.name <- "DrL Graph layout"
-    l <- layout_with_drl(network.FS)
+    l <- igraph::layout_with_drl(network.FS)
   }
   title <- paste(title,"\n[",layout.name,"]")
 

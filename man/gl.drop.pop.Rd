@@ -4,24 +4,34 @@
 \alias{gl.drop.pop}
 \title{Remove specified populations from a genelight \{adegenet\} object}
 \usage{
-gl.drop.pop(x, pop.list, recalc = FALSE, mono.rm = TRUE, v = 2)
+gl.drop.pop(
+  x,
+  pop.list,
+  as.pop = NULL,
+  recalc = FALSE,
+  mono.rm = FALSE,
+  verbose = NULL
+)
 }
 \arguments{
-\item{x}{-- name of the genlight object containing SNP genotypes or a genind object containing presence/absence data [required]}
+\item{x}{-- name of the genlight object containing SNP genotypes or Tag P/A data (SilicoDArT) [required]}
 
 \item{pop.list}{-- a list of populations to be removed [required]}
 
+\item{as.pop}{-- temporarily assign another metric to represent population for the purposes
+of deletions [default NULL]}
+
 \item{recalc}{-- Recalculate the locus metadata statistics [default FALSE]}
 
-\item{mono.rm}{-- Remove monomorphic loci [default TRUE]}
+\item{mono.rm}{-- Remove monomorphic loci [default FALSE]}
 
-\item{v}{-- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2]}
+\item{verbose}{-- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2 or as specified using gl.set.verbosity]}
 }
 \value{
 A genlight object with the reduced data
 }
 \description{
-Individuals are assigned to populations based on the specimen metadata data file (csv) used with gl.read.dart().
+Individuals are assigned to populations based on the specimen metadata data file (csv) used with gl.read.dart() or gs.read.dart().
 }
 \details{
 The script, having deleted populations, optionally identifies resultant monomorphic loci or loci
@@ -31,7 +41,14 @@ recalculates statistics made redundant by the deletion of individuals from the d
 The script returns a genlight object with the new population assignments and the recalculated locus metadata.
 }
 \examples{
-   gl <- gl.drop.pop(testset.gl, pop.list=c("EmsubRopeMata","EmvicVictJasp"))
+ # SNP data
+   gl2 <- gl.drop.pop(testset.gl, pop.list=c("EmsubRopeMata","EmvicVictJasp"))
+   gl2 <- gl.drop.pop(testset.gl, pop.list=c("EmsubRopeMata","EmvicVictJasp"),
+   mono.rm=TRUE,recalc=TRUE)
+   gl2 <- gl.drop.pop(testset.gl, pop.list=c("Male","Unknown"),as.pop="sex")
+ # Tag P/A data  
+   gs2 <- gl.drop.pop(testset.gs, pop.list=c("EmsubRopeMata","EmvicVictJasp"))
+
 }
 \seealso{
 \code{\link{gl.filter.monomorphs}}
@@ -39,5 +56,5 @@ The script returns a genlight object with the new population assignments and the
 \code{\link{gl.recalc.metrics}}
 }
 \author{
-Arthur Georges (bugs? Post to \url{https://groups.google.com/d/forum/dartr})
+Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 }

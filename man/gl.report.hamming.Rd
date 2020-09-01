@@ -4,15 +4,37 @@
 \alias{gl.report.hamming}
 \title{Calculates the pairwise Hamming distance between DArT trimmed DNA sequences}
 \usage{
-gl.report.hamming(gl, rs = 5)
+gl.report.hamming(
+  x,
+  rs = 5,
+  boxplot = "adjusted",
+  range = 1.5,
+  threshold = 3,
+  taglength = 69,
+  probar = FALSE,
+  verbose = 2
+)
 }
 \arguments{
-\item{gl}{-- genlight object [required]}
+\item{x}{-- name of the genlight object containing the SNP data [required]}
 
-\item{rs}{-- number of bases in the restriction enzyme recognition sequence [default = 4]}
+\item{rs}{-- number of bases in the restriction enzyme recognition sequence [default 5]}
+
+\item{boxplot}{-- if 'standard', plots a standard box and whisker plot; 
+if 'adjusted', plots a boxplot adjusted for skewed distributions [default 'adjusted']}
+
+\item{range}{-- specifies the range for delimiting outliers [default = 1.5 interquartile ranges]}
+
+\item{threshold}{minimum acceptable base pair difference for display on the whisker plot and histogram [default 3 bp]}
+
+\item{taglength}{-- typical length of the sequence tags [default 69]}
+
+\item{probar}{-- if TRUE, then a progress bar is desplayed on long loops [default TRUE]}
+
+\item{verbose}{-- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2 or as specified using gl.set.verbosity]}
 }
 \value{
-Histogram of Hamming distance for the gl object
+Tabulation of loc that will be lost on filtering, against values of the threshold
 }
 \description{
 Hamming distance is calculated as the number of base differences between two 
@@ -24,21 +46,23 @@ two trimmed sequences starting from immediately after the common recognition
 sequence and terminating at the last base of the shorter sequence.
 }
 \details{
-Hamming distance can be computed 
-by exploiting the fact that the dot product of two binary vectors x and (1-y)
-counts the corresponding elements that are different between x and y.
-This approach can also be used for vectors that contain more than two possible 
-values at each position (e.g. A, C, T or G).
+Hamming distance can be computed by exploiting the fact that the dot product 
+of two binary vectors x and (1-y) counts the corresponding elements that are 
+different between x and y. This approach can also be used for vectors that 
+contain more than two possible values at each position (e.g. A, C, T or G).
 
 If a pair of DNA sequences are of differing length, the longer is truncated.
 
 The algorithm is that of Johann de Jong 
 \url{https://johanndejong.wordpress.com/2015/10/02/faster-hamming-distance-in-r-2/}
 as implimented in utils.hamming.r
+
+A histogram and whiskerplot can be requested. Both display a user specified value
+for the minumum acceptable Hamming distance.
 }
 \examples{
-gl.report.hamming(testset.gl)
+out <- gl.report.hamming(testset.gl)
 }
 \author{
-Arthur Georges (bugs? Post to \url{https://groups.google.com/d/forum/dartr})
+Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 }

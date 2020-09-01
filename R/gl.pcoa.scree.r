@@ -13,14 +13,47 @@
 #' @param top -- a flag to indicate whether or not plot only those eigenvalues greater in value than the average for the
 #'        unordinated original variables (top=TRUE) or to plot all eigenvalues (top=FALSE). If top=FALSE, then a
 #'        reference line showing the average eigenvalue for the unordinated variables is shown. [default TRUE]
+#' @param verbose -- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2 or as specified using gl.set.verbosity]
 #' @return The scree plot
 #' @export
-#' @author Arthur Georges (bugs? Post to \url{https://groups.google.com/d/forum/dartr})
+#' @author Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 #' @examples
 #' pcoa <- gl.pcoa(testset.gl)
 #' gl.pcoa.scree(pcoa)
 
-gl.pcoa.scree <- function(x, top=TRUE) {
+gl.pcoa.scree <- function(x, top=TRUE, verbose=0) {
+
+# TRAP COMMAND, SET VERSION
+  
+  funname <- match.call()[[1]]
+  build <- "Jacob"
+  
+# SET VERBOSITY
+  
+  if (is.null(verbose)){ 
+    if(!is.null(x@other$verbose)){ 
+      verbose <- x@other$verbose
+    } else { 
+      verbose <- 2
+    }
+  } 
+  
+  if (verbose < 0 | verbose > 5){
+    cat(paste("  Warning: Parameter 'verbose' must be an integer between 0 [silent] and 5 [full report], set to 2\n"))
+    verbose <- 2
+  }
+  
+# FLAG SCRIPT START
+  
+  if (verbose >= 1){
+    if(verbose==5){
+      cat("Starting",funname,"[ Build =",build,"]\n")
+    } else {
+      cat("Starting",funname,"\n")
+    }
+  }
+
+# DO THE JOB
 
   # Express eigenvalues as a percentage of total
     s <- sum(x$eig)
@@ -29,12 +62,12 @@ gl.pcoa.scree <- function(x, top=TRUE) {
   # If top=TRUE, consider only those eigenvalues above the average for the original unordinated variables.
     if(top==TRUE) {
       e <- e[e>mean(e)]
-      cat("Note: Only eigenvalues for dimensions that explain more that the average of the original variables are shown\n")
+      cat("  Note: Only eigenvalues for dimensions that explain more that the average of the original variables are shown\n")
     } else {
-      cat("Note: All eigenvalues shown\n")
+      cat("  Note: All eigenvalues shown\n")
     }
     top <- length(e[e>=10])
-    cat(paste("No. of axes each explaining 10% or more of total variation:",top,"\n"))
+    cat(paste("  No. of axes each explaining 10% or more of total variation:",top,"\n"))
   # Plot the scree plot
     m <- cbind(seq(1:length(e)),e)
     df <- data.frame(m)
@@ -52,6 +85,12 @@ gl.pcoa.scree <- function(x, top=TRUE) {
       geom_hline(yintercept=0) +
       geom_vline(xintercept=0)
       if(top==FALSE) {p <- p + geom_hline(yintercept=mean(e), colour="blue")}
+
+# FLAG SCRIPT END
+
+  if (verbose > 0) {
+    cat("Completed:",funname,"\n")
+  }
 
    return(p)
 }

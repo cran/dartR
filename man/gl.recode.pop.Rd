@@ -2,20 +2,20 @@
 % Please edit documentation in R/gl.recode.pop.r
 \name{gl.recode.pop}
 \alias{gl.recode.pop}
-\title{Recode population assignments in a genelight object \{adegenet\}}
+\title{Recode population assignments in a genlight object \{adegenet\}}
 \usage{
-gl.recode.pop(x, pop.recode, recalc = TRUE, mono.rm = TRUE, v = 1)
+gl.recode.pop(x, pop.recode, recalc = TRUE, mono.rm = TRUE, verbose = NULL)
 }
 \arguments{
-\item{x}{-- name of the genlight object containing SNP genotypes or a genind object containing presence/absence data [required]}
+\item{x}{-- name of the genlight object containing the SNP data [required]}
 
 \item{pop.recode}{-- name of the csv file containing the population reassignments [required]}
 
-\item{recalc}{-- Recalculate the locus metadata statistics if any individuals are deleted in the filtering [default TRUE]}
+\item{recalc}{-- Recalculate the locus metadata statistics if any individuals are deleted in the filtering [default FALSE]}
 
-\item{mono.rm}{-- Remove monomorphic loci [default TRUE]}
+\item{mono.rm}{-- Remove monomorphic loci [default FALSE]}
 
-\item{v}{-- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2]}
+\item{verbose}{-- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2 or as specified using gl.set.verbosity]}
 }
 \value{
 A genlight object with the recoded and reduced data
@@ -37,13 +37,15 @@ with all values missing and deletes them (using gl.filter.monomorphs.r). The scr
 recalculates the locus metadata as appropriate.
 }
 \examples{
-\dontrun{
-   gl <- gl.recode.pop(gl, pop.recode="pop_recode_table_0.csv")
-}
+\donttest{
+  mfile <- system.file("extdata", "testset_pop_recode.csv", package="dartR")
+  nPop(testset.gl)
+  gl <- gl.recode.pop(testset.gl, pop.recode=mfile, verbose=3)
+ }
 }
 \seealso{
 \code{\link{gl.filter.monomorphs}}
 }
 \author{
-Arthur Georges (bugs? Post to \url{https://groups.google.com/d/forum/dartr})
+Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 }

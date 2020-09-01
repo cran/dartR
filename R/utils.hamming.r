@@ -35,9 +35,12 @@
 #' @param r -- number of bases in the restriction enzyme recognition sequence [default = 4]
 #' @return Hamming distance between the two strings
 #' @export
-#' @author Arthur Georges (bugs? Post to \url{https://groups.google.com/d/forum/dartr})
+#' @author Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 
 utils.hamming <- function(str1, str2, r=4) {
+  
+  # Build = Jacob
+  
   # Make the strings the same length and remove the recognition sequence
   strmin <- min(nchar(str1),nchar(str2))
   str1 <- substr(str1,r,strmin)

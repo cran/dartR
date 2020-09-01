@@ -21,13 +21,17 @@
 #' with all values missing and deletes them (using gl.filter.monomorphs.r). The script also optionally
 #' recalculates statistics made redundant by the deletion of individuals from the dataset.
 #' 
+#' Use outpath=getwd() or outpath="." when calling this function to direct output files to your working directory.
+#' 
 #' The script returns a genlight object with the new population assignments and the recalculated locus metadata.
 #' 
-#' @param gl Name of the genlight object for which populations are to be reassigned.[required]
-#' @param pop.recode Name of the file to output the new assignments [optional]
+#' @param x Name of the genlight object for which populations are to be reassigned.[required]
+#' @param pop.recode path to recode file
+#' @param out.recode.file Name of the file to output the new individual labels [null]
+#' @param outpath -- path where to save the output file [default tempdir(), mandated by CRAN].
 #' @param recalc -- Recalculate the locus metadata statistics if any individuals are deleted [default TRUE]
 #' @param mono.rm -- Remove monomorphic loci [default TRUE]
-#' @param v -- verbosity: 0, silent; 1, brief; 2, verbose [default 1]
+#' @param verbose -- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2 or as specified using gl.set.verbosity]
 #' @return An object of class ("genlight") with the revised population assignments
 #' @import utils
 #' @export
@@ -36,15 +40,75 @@
 #' \dontrun{
 #' gl <- gl.edit.recode.pop(testset.gl)
 #' }
-#
-# Ammended Georges 29-Oct-16
 
-gl.edit.recode.pop <- function(gl, pop.recode=NULL, recalc=FALSE, mono.rm=TRUE, v=1) {
+gl.edit.recode.pop <- function(x, pop.recode=NULL, out.recode.file=NULL, outpath=tempdir(), recalc=FALSE, mono.rm=FALSE, verbose=NULL) {
+
+# TRAP COMMAND, SET VERSION
   
-# Take assignments from gl  
+  funname <- match.call()[[1]]
+  build <- "Jacob"
+  if (!is.null(out.recode.file)){
+    outfilespec <- file.path(outpath, out.recode.file)
+  }  
 
-  cat("Extracting current pop assignments from the gl object\n")
-  recode.table <- cbind(levels(pop(gl)),levels(pop(gl)))
+# SET VERBOSITY
+  
+  if (is.null(verbose)){ 
+    if(!is.null(x@other$verbose)){ 
+      verbose <- x@other$verbose
+    } else { 
+      verbose <- 2
+    }
+  } 
+  
+  if (verbose < 0 | verbose > 5){
+    cat(paste("  Warning: Parameter 'verbose' must be an integer between 0 [silent] and 5 [full report], set to 2\n"))
+    verbose <- 2
+  }
+  
+# FLAG SCRIPT START
+  
+  if (verbose >= 1){
+    if(verbose==5){
+      cat("Starting",funname,"[ Build =",build,"]\n")
+    } else {
+      cat("Starting",funname,"\n")
+    }
+  }
+  
+# STANDARD ERROR CHECKING
+  
+  if(class(x)!="genlight") {
+    stop("Fatal Error: genlight object required!\n")
+  }
+  
+  if (all(x@ploidy == 1)){
+    if (verbose >= 2){cat("  Processing  Presence/Absence (SilicoDArT) data\n")}
+    data.type <- "SilicoDArT"
+  } else if (all(x@ploidy == 2)){
+    if (verbose >= 2){cat("  Processing a SNP dataset\n")}
+    data.type <- "SNP"
+  } else {
+    stop("Fatal Error: Ploidy must be universally 1 (fragment P/A data) or 2 (SNP data)")
+  }
+  
+# FUNCTION SPECIFIC ERROR CHECKING
+  
+  if (is.null(pop(x)) | is.na(length(pop(x))) | length(pop(x)) <= 0) {
+    stop("  Fatal Error: Population names not detected\n")
+  }
+
+# DO THE JOB
+
+  # Store variables
+  hold.nLoc <- nLoc(x)
+  hold.nInd <- nInd(x)
+  hold.nPop <- nPop(x)
+  
+  # Take assignments from x
+
+  if (verbose >= 2){cat("  Extracting current pop assignments from the x object\n")}
+  recode.table <- cbind(levels(pop(x)),levels(pop(x)))
 
 # Create recode table for editting, and bring up the editor
     new <- as.matrix(edit(recode.table))
@@ -52,51 +116,66 @@ gl.edit.recode.pop <- function(gl, pop.recode=NULL, recalc=FALSE, mono.rm=TRUE, 
 
 # Write out the recode table, if requested
   if (is.null(pop.recode)) {
-      cat("No output table specified, recode table not written to disk\n")
+      cat("  No output table specified, recode table not written to disk\n")
   } else {
-    cat(paste("Writing population recode table to: ",pop.recode,"\n"))
+    if (verbose >= 2){cat(paste("  Writing population recode table to: ",pop.recode,"\n"))}
     write.table(new, file=pop.recode, sep=",", row.names=FALSE, col.names=FALSE)    
   }
 
 # Apply the new assignments  
-  pop.list <- as.character(pop(gl));
+  pop.list <- as.character(pop(x));
   ntr <- length(new[,1])
-  for (i in 1:nInd(gl)) {
+  for (i in 1:nInd(x)) {
     for (j in 1:ntr) {
       if (pop.list[i]==new[j,1]) {pop.list[i] <- new[j,2]}
     }
   }
-  # Assigning new populations to gl
-  cat("Assigning new population names\n")
-  pop(gl) <- pop.list
+  # Assigning new populations to x
+  if (verbose >= 2){cat("Assigning new population names\n")}
+  pop(x) <- pop.list
   
   # If there are populations to be deleted, then recalculate relevant locus metadata and remove monomorphic loci
   
-  if ("delete" %in% gl$pop | "Delete" %in% gl$pop) {
-    # Remove rows flagged for deletion
-      cat("Deleting populations flagged for deletion\n")
-      gl <- gl[!gl$pop=="delete" & !gl$pop=="Delete"]
-    # Remove monomorphic loci
-      if(mono.rm) {gl <- gl.filter.monomorphs(gl,v=v)}
-    # Recalculate statistics
-      if (recalc) {
-        gl.recalc.metrics(gl,v=v)
-    }  
+  if ("delete" %in% x$pop | "Delete" %in% x$pop) {
+   # Remove populations flagged for deletion
+    if (verbose >= 2){cat("Deleting individuals/samples flagged for deletion (Flagged 'Delete' or 'delete')\n")}
+    x <- gl.drop.pop(x,pop.list=c('Delete','delete'),verbose=0)
   }
   
-  # REPORT A SUMMARY
-  if (v==2) {
-    cat("Summary of recoded dataset\n")
-    cat(paste("  No. of loci:",nLoc(gl),"\n"))
-    cat(paste("  No. of individuals:", nInd(gl),"\n"))
-    cat(paste("  No. of populations: ", length(levels(factor(pop(gl)))),"\n"))
-    if (!recalc) {cat("Note: Locus metrics not recalculated\n")}
-    if (!mono.rm) {cat("note: Resultant monomorphic loci not deleted\n")}
+  # Recalculate statistics
+  if (recalc) {
+    x <- gl.recalc.metrics(x,verbose=0)
+  } 
+  
+  #  Remove monomorphic loci
+  if (mono.rm) {
+    x <- gl.filter.monomorphs(x,verbose=0)
   }
-  if (v>=1) {  
+  
+# REPORT A SUMMARY
+  
+  if (verbose>=2) {
+    cat("\n  Summary of recoded dataset\n")
+    cat(paste("  Original No. of loci:",hold.nLoc,"\n"))
+    cat(paste("    New No. of loci:",nLoc(x),"\n"))
+    cat(paste("  Original No. of individuals:", hold.nInd,"\n"))
+    cat(paste("    New No. of individuals:", nInd(x),"\n"))
+    cat(paste("  Original No. of populations:", hold.nPop,"\n"))
+    cat(paste("    New No. of populations:", nPop(x),"\n\n"))
     if (!recalc) {cat("Note: Locus metrics not recalculated\n")}
-    if (!mono.rm) {cat("note: Resultant monomorphic loci not deleted\n")}
+    if (!mono.rm) {cat("Note: Resultant monomorphic loci not deleted\n")}
   }
-  return(gl)
+ 
+# ADD TO HISTORY
+  nh <- length(x@other$history)
+  x@other$history[[nh + 1]] <- match.call() 
+
+# FLAG SCRIPT END
+  
+  if (verbose > 0) {
+    cat("Completed:",funname,"\n")
+  }
+
+  return(x)
   
 }

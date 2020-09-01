@@ -11,6 +11,13 @@
 gl.filter.cloneid <- function(gl)
 
 {  
+  
+  # Work around a bug in adegenet if genlight object is created by subsetting
+
+  if (nLoc(gl)!=nrow(gl@other$loc.metrics)) { stop("The number of rows in the loc.metrics table does not match the number of loci in your genlight object!")  }
+
+  
+  
 nclones <- table(gl@other$loc.metrics$clone)
 
 
@@ -36,7 +43,9 @@ ind <- as.numeric(ind)
 glf <- gl[, ind]
 glf@other$loc.metrics <- gl@other$loc.metrics[ind,]
 
-
+#add to history
+nh <- length(glf@other$history)
+glf@other$history[[nh + 1]] <- match.call()
 return(glf)
 }
 

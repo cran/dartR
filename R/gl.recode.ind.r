@@ -1,51 +1,106 @@
-#' Recode individual (=specimen) labels in a genelight or genind object \{adegenet\}
+#' Recode individual (=specimen = sample) labels in a genelight object \{adegenet\}
 #'
 #' This script recodes individual labels and/or deletes individuals from a DaRT genlight SNP file
-#' based on information provided in a csv file.
+#' based on a lookup table provided as a csv file.
 #'
 #' Renaming individuals may be required when there have been errors in labelling arising
 #' in the process from sample to DArT files. There may be occasions where renaming
-#' individuals is required for preparation of figures. Caution needs to be exercised
-#' because of the potential for breaking the "chain of evidence" between the samples themselves
-#' and the analyses. Recoding individuals can be done with a recode table (csv).
+#' individuals is required for preparation of figures. When caution needs to be exercised
+#' because of the potential for breaking the "chain of evidence" associated with the samples,
+#' recoding individuals using a recode table (csv) can provide a clear record of the changes.
 #' 
 #' The script, having deleted individuals, optionally identifies resultant monomorphic loci or loci
 #' with all values missing and deletes them (using gl.filter.monomorphs.r). The script also optionally
-#' recalculates statistics made redundant by the deletion of individuals from the dataset.
+#' recalculates statistics made incorrect by the deletion of individuals from the dataset.
 #' 
-#' The script returns a genlight object with the new individual labels and the recalculated locus metadata.
+#' The script returns a genlight object with the new individual labels, the monomorphic loci optionally removed
+#' and the optionally recalculated locus metadata.
 #'
-#' @param x -- name of the genlight object containing SNP genotypes or a genind object containing presence/absence data [required]
+#' @param x -- name of the genlight object containing SNP genotypes [required]
 #' @param ind.recode -- name of the csv file containing the individual relabelling [required]
-#' @param recalc -- Recalculate the locus metadata statistics if any individuals are deleted in the filtering [default TRUE]
-#' @param mono.rm -- Remove monomorphic loci [default TRUE]
-#' @param v -- verbosity: 0, silent; 1, brief; 2, verbose [default 1]
+#' @param recalc -- if TRUE, recalculate the locus metadata statistics if any individuals are deleted in the filtering [default FALSE]
+#' @param mono.rm -- if TRUE, remove monomorphic loci [default FALSE]
+#' @param verbose -- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2 or as specified using gl.set.verbosity]
 #' @return A genlight or genind object with the recoded and reduced data
 #' @export
-#' @author Arthur Georges (bugs? Post to \url{https://groups.google.com/d/forum/dartr})
+#' @author Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 #' @examples
-#' \dontrun{
-#'    gl <- gl.recode.ind(testset.gl, ind.recode="testset_pop_recode.csv")
-#' }
-#' @seealso \code{\link{gl.filter.monomorphs}}
-#' 
-#'
+#'   file <- system.file("extdata","testset_pop_recode.csv", package="dartR")
+#'   #gl <- gl.recode.ind(testset.gl, ind.recode=file, verbose=0)
+#' @seealso \code{\link{gl.filter.monomorphs}} for filtering monomorphs, \code{\link{gl.recalc.metrics}} for recalculating locus metrics,
+#' \code{\link{gl.recode.pop}} for recoding populations
 
-gl.recode.ind <- function(x, ind.recode, recalc=TRUE, mono.rm=TRUE, v=1){
+gl.recode.ind <- function(x, ind.recode, recalc=FALSE, mono.rm=FALSE, verbose=NULL){
 
+# TRAP COMMAND, SET VERSION
+  
+  funname <- match.call()[[1]]
+  build <- "Jacob"
+  
+# SET VERBOSITY
+  
+  if (is.null(verbose)){ 
+    if(!is.null(x@other$verbose)){ 
+      verbose <- x@other$verbose
+    } else { 
+      verbose <- 2
+    }
+  } 
+  
+  if (verbose < 0 | verbose > 5){
+    cat(paste("  Warning: Parameter 'verbose' must be an integer between 0 [silent] and 5 [full report], set to 2\n"))
+    verbose <- 2
+  }
+  
+# FLAG SCRIPT START
+  
+  if (verbose >= 1){
+    if(verbose==5){
+      cat("Starting",funname,"[ Build =",build,"]\n")
+    } else {
+      cat("Starting",funname,"\n")
+    }
+  }
+  
+# STANDARD ERROR CHECKING
+  
   if(class(x)!="genlight") {
-    cat("Fatal Error: genlight object required for gl.recode.ind.r!\n"); stop()
+    stop("Fatal Error: genlight object required!\n")
   }
-
-# RELABEL INDIVIDUALS
-  cat("Processing",class(x),"object\n")
-  cat("  Relabelling individuals (=specimens) as per ", ind.recode, "\n")
+  
+  if (all(x@ploidy == 1)){
+    if (verbose >= 2){cat("  Processing  Presence/Absence (SilicoDArT) data\n")}
+    data.type <- "SilicoDArT"
+  } else if (all(x@ploidy == 2)){
+    if (verbose >= 2){cat("  Processing a SNP dataset\n")}
+    data.type <- "SNP"
+  } else {
+    stop("Fatal Error: Ploidy must be universally 1 (fragment P/A data) or 2 (SNP data)")
+  }
+  
+# SCRIPT SPECIFIC ERROR CHECKING
+  
   recode.table <- read.csv(ind.recode, stringsAsFactors=FALSE, header=FALSE);
-# Error check
   if(length(unique(indNames(x))) != length(unique(recode.table[,1]))) {
-    cat("Fatal Error: Individual names in data file are not the same as in the recode table\n"); stop()
+    stop("  Fatal Error: Individual names in data file are not the same as in the recode table\n")
   }
+  
+# DO THE JOB
+
+  if (verbose >= 2){
+    cat("  Relabelling individuals (=specimens) as per ", ind.recode, "\n")
+    cat("    Reading lookup table\n")
+  }
+  
+  # Store variables
+  hold.nLoc <- nLoc(x)
+  hold.nInd <- nInd(x)
+  hold.nPop <- nPop(x)
+
 # Apply the recode to the individuals
+  if (verbose >= 2){
+    cat("    Applying the recoding\n")
+  }
   ind.list <- as.character(indNames(x))
   ntr <- length(recode.table[,1])
   for (i in 1:nInd(x)) {
@@ -59,41 +114,46 @@ gl.recode.ind <- function(x, ind.recode, recalc=TRUE, mono.rm=TRUE, v=1){
   
   if ("delete" %in% x$ind.names | "Delete" %in% x$ind.names) {
     # Remove rows flagged for deletion
-      cat("Deleting individuals or samples flagged for deletion\n")
-      x2 <- x[!x$ind.names=="delete" & !x$ind.names=="Delete"]
-    #  Remove monomorphic loci
-      if (mono.rm) {x2 <- gl.filter.monomorphs(x2,v=v)}
-      if (recalc) {
-    # Recalculate statistics
-        x2 <- gl.recalc.metrics(x2,v=v)
+      if (verbose >= 2){
+        cat("    Deleting individuals/samples flagged for deletion\n")
       }
-  } else {
-    x2 <- x
-  }
-
-# REPORT A SUMMARY
-  if (v >= 2) {
-    cat("Summary of recoded dataset\n")
-    cat(paste("  No. of loci:",nLoc(x2),"\n"))
-    cat(paste("  No. of individuals:", nInd(x2),"\n"))
-    cat(paste("  No. of populations: ", length(levels(factor(pop(x2)))),"\n"))
-    if (!recalc) {cat("Note: Locus metrics not recalculated\n")}
-    if (!mono.rm) {cat("note: Resultant monomorphic loci not deleted\n")}
+      x <- gl.drop.ind(x,ind.list=c("Delete","delete"),verbose=0)
+  } 
+  
+  # Recalculate statistics
+  if (recalc) {
+    x <- gl.recalc.metrics(x,verbose=0)
+  } 
+  
+  #  Remove monomorphic loci
+  if (mono.rm) {
+    x <- gl.filter.monomorphs(x,verbose=0)
   }
   
-  if (v >= 2) {  
-    if (!recalc) {
-      cat("Note: Locus metrics not recalculated\n")
-    } else {
-      cat("Note: Locus metrics recalculated\n")
-    }
-    if (!mono.rm) {
-      cat("Note: Resultant monomorphic loci not deleted\n")
-    } else{
-      cat("Note: Resultant monomorphic loci deleted\n")
-    }
+# REPORT A SUMMARY
+  
+  if (verbose>=2) {
+    cat("\n  Summary of recoded dataset\n")
+    cat(paste("  Original No. of loci:",hold.nLoc,"\n"))
+    cat(paste("    New No. of loci:",nLoc(x),"\n"))
+    cat(paste("  Original No. of individuals:", hold.nInd,"\n"))
+    cat(paste("    New No. of individuals:", nInd(x),"\n"))
+    cat(paste("  Original No. of populations:", hold.nPop,"\n"))
+    cat(paste("    New No. of populations:", nPop(x),"\n\n"))
+    if (!recalc) {cat("Note: Locus metrics not recalculated\n")}
+    if (!mono.rm) {cat("Note: Resultant monomorphic loci not deleted\n")}
   }
+  
+# ADD TO HISTORY
+    nh <- length(x@other$history)
+    x@other$history[[nh + 1]] <- match.call()  
 
-    return(x2)
+# FLAG SCRIPT END
+
+  if (verbose > 0) {
+    cat("Completed:",funname,"\n")
+  }
+    
+  return(x)
+    
 }
-

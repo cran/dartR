@@ -2,21 +2,29 @@
 % Please edit documentation in R/gl.edit.recode.ind.r
 \name{gl.edit.recode.ind}
 \alias{gl.edit.recode.ind}
-\title{Create or edit a individual (=specimen) names and create an recode_ind file}
+\title{Create or edit a individual (=specimen) names, create an recode_ind file amd apply the changes to a genlight object.}
 \usage{
-gl.edit.recode.ind(gl, ind.recode = NULL, recalc = TRUE,
-  mono.rm = TRUE, v = 1)
+gl.edit.recode.ind(
+  x,
+  out.recode.file = NULL,
+  outpath = tempdir(),
+  recalc = FALSE,
+  mono.rm = FALSE,
+  verbose = NULL
+)
 }
 \arguments{
-\item{gl}{Name of the genlight object for which individuals are to be relabelled.[required]}
+\item{x}{Name of the genlight object for which individuals are to be relabelled.[required]}
 
-\item{ind.recode}{Name of the file to output the new assignments [optional]}
+\item{out.recode.file}{Name of the file to output the new individual labels [optional]}
+
+\item{outpath}{-- path where to save the output file [default tempdir(), mandated by CRAN].}
 
 \item{recalc}{-- Recalculate the locus metadata statistics [default TRUE]}
 
 \item{mono.rm}{-- Remove monomorphic loci [default TRUE]}
 
-\item{v}{-- v=0, silent; v=1, low verbosity; v=2, high verbosity [default 1]}
+\item{verbose}{-- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2 or as specified using gl.set.verbosity]}
 }
 \value{
 An object of class ("genlight") with the revised individual labels
@@ -43,15 +51,16 @@ The script, having deleted individuals, optionally identifies resultant monomorp
 with all values missing and deletes them (using gl.filter.monomorphs.r). The script also optionally
 recalculates statistics made redundant by the deletion of individuals from the dataset.
 
+Use outpath=getwd() or outpath="." when calling this function to direct output files to your working directory.
+
 The script returns a genlight object with the new individual labels and the recalculated locus metadata.
 }
 \examples{
 \dontrun{
 gl <- gl.edit.recode.ind(testset.gl)
-gl <- gl.edit.recode.ind(testset.gl, ind.recode="ind.recode.table.csv")
-gl <- gl.edit.recode.ind(testset.gl, ind.recode="ind.recode.table.csv")
+gl <- gl.edit.recode.ind(testset.gl, out.recode.file="ind.recode.table.csv")
+gl <- gl.edit.recode.ind(testset.gl, out.recode.file="ind.recode.table.csv")
 }
-#Ammended Georges 9-Mar-17
 }
 \author{
 Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})

@@ -4,18 +4,18 @@
 \alias{gl.percent.freq}
 \title{Generate percentage allele frequencies by locus and population}
 \usage{
-gl.percent.freq(gl, v = 2)
+gl.percent.freq(x, verbose = NULL)
 }
 \arguments{
-\item{gl}{-- name of the genlight containing the SNP genotypes or genind object containing the presence/absence data [required]}
+\item{x}{-- name of the genlight object containing the SNP or Tag P/A (SilicoDArT) data [required]}
 
-\item{v}{-- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2]}
+\item{verbose}{-- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2 or as specified using gl.set.verbosity]}
 }
 \value{
-A matrix with allele frequencies (genelight) or presence/absence frequencies (genind) broken down by population and locus
+A matrix with allele (SNP data) or presence/absence frequencies (Tag P/A data) broken down by population and locus
 }
 \description{
-This is a support script, to take SNP data or SilocoDArT presence/absence data grouped into populations in a genelight or genind object \{adegenet\}
+This is a support script, to take SNP data or SilocoDArT presence/absence data grouped into populations in a genelight object \{adegenet\}
 and generate a table of allele frequencies for each population and locus
 }
 \examples{
@@ -23,5 +23,5 @@ m <-  gl.percent.freq(testset.gl)
 m
 }
 \author{
-Arthur Georges (bugs? Post to \url{https://groups.google.com/d/forum/dartr})
+Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 }

@@ -4,52 +4,87 @@
 #' separately with the same CloneID (=AlleleID).
 #' These multiple SNP loci within a fragment (secondaries) are likely to be linked, 
 #' and so you may wish to remove secondaries.
-#' This script filters out loci after ordering the genlight object on based on 
-#' repeatability, avgPIC in that order (method="best") or at random (method="random")
+#' 
+#' This script filters out all but the first sequence tag with the same CloneID after ordering the genlight object on based on 
+#' repeatability, avgPIC in that order (method="best") or at random (method="random").
+#' 
+#' The filter has not been implemented for tag presence/absence data.
 #'
 #' @param x -- name of the genlight object containing the SNP data [required]
 #' @param method -- method of selecting SNP locus to retain, best or random [random]
-#' @param v -- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2]
+#' @param verbose -- verbosity: 0, silent or fatal errors; 1, begin and end; 2, progress log ; 3, progress and results summary; 5, full report [default 2, unless specified using gl.set.verbosity]
 #' @return The reduced genlight, plus a summary
 #' @export
 #' @author Arthur Georges (Post to \url{https://groups.google.com/d/forum/dartr})
 #' @examples
-#' result <- gl.report.secondaries(testset.gl)
-#' result2 <- gl.filter.secondaries(testset.gl)
+#' gl.report.secondaries(testset.gl)
+#' result <- gl.filter.secondaries(testset.gl)
 
-# Last edit:25-Apr-18
+gl.filter.secondaries <- function(x, method="random", verbose=NULL) {
 
-gl.filter.secondaries <- function(x, method="random", v=2) {
-
-  # ERROR CHECKING
+# TRAP COMMAND, SET VERSION
+  
+  funname <- match.call()[[1]]
+  build <- "Jacob"
+  
+# SET VERBOSITY
+  
+  if (is.null(verbose)){ 
+    if(!is.null(x@other$verbose)){ 
+      verbose <- x@other$verbose
+    } else { 
+      verbose <- 2
+    }
+  } 
+  
+  if (verbose < 0 | verbose > 5){
+    cat(paste("  Warning: Parameter 'verbose' must be an integer between 0 [silent] and 5 [full report], set to 2\n"))
+    verbose <- 2
+  }
+  
+# FLAG SCRIPT START
+  
+  if (verbose >= 1){
+    if(verbose==5){
+      cat("Starting",funname,"[ Build =",build,"]\n")
+    } else {
+      cat("Starting",funname,"\n")
+    }
+  }
+  
+# STANDARD ERROR CHECKING
   
   if(class(x)!="genlight") {
-    cat("Fatal Error: genlight object required!\n"); stop("Execution terminated\n")
+    stop("Fatal Error: genlight object required!")
   }
   
-  if (v < 0 | v > 5){
-    cat("    Warning: verbosity must be an integer between 0 [silent] and 5 [full report], set to 2\n")
-    v <- 2
+  if (all(x@ploidy == 1)){
+    stop("  Processing  Presence/Absence (SilicoDArT) data -- this filter not yet available for SilicoDArT data\n")
+  } else if (all(x@ploidy == 2)){
+    if (verbose >= 2){cat("  Processing a SNP dataset\n")}
+    data.type <- "SNP"
+  } else {
+    stop("Fatal Error: Ploidy must be universally 1 (fragment P/A data) or 2 (SNP data)")
   }
-  
+
+# FUNCTION SPECIFIC ERROR CHECKING
+
   if (method != "best" && method != "random"){
     cat("    Warning: method must be specified, set to \'random\'\n")
   }
 
-  if (v > 0) {
-    cat("Starting gl.filter.secondaries: Deleting all but one SNP per sequence tag\n")
-  }
-  
-  if (v > 2) {cat("  Total number of SNP loci:",nLoc(x),"\n")}
+# DO THE JOB
+
+  if (verbose > 2) {cat("  Total number of SNP loci:",nLoc(x),"\n")}
   
 # Sort the genlight object on AlleleID (asc), RepAvg (desc), AvgPIC (desc) 
   if (method == "best") {
-    if (v > 1){cat("  Selecting one SNP per sequence tag based on best RepAvg and AvgPIC\n")}
+    if (verbose > 1){cat("  Selecting one SNP per sequence tag based on best RepAvg and AvgPIC\n")}
     loc.order <- order(x@other$loc.metrics$AlleleID,-x@other$loc.metrics$RepAvg,-x@other$loc.metrics$AvgPIC)
     x <- x[, loc.order]
     x@other$loc.metrics <- x@other$loc.metrics[loc.order, ]
   } else {
-    if (v > 1){cat("  Selecting one SNP per sequence tag at random\n")}
+    if (verbose > 1){cat("  Selecting one SNP per sequence tag at random\n")}
     n <- length(x@other$loc.metrics$AlleleID)
     index <- sample(1:(n+10000),size=n,replace=FALSE)
     x <- x[,order(index)]
@@ -63,7 +98,7 @@ gl.filter.secondaries <- function(x, method="random", v=2) {
   x@other$loc.metrics <- x@other$loc.metrics[duplicated(b)==FALSE,]
 
 # Report secondaries from the genlight object
-  if (v > 2) {
+  if (verbose > 2) {
     if (is.na(table(duplicated(b))[2])) { 
       nsec <- 0
     } else {  
@@ -73,7 +108,15 @@ gl.filter.secondaries <- function(x, method="random", v=2) {
     cat("    Number of loci after secondaries removed:",table(duplicated(b))[1],"\n")
   }
   
-  if ( v > 0) {cat("gl.filter.secondaries completed\n")}
+# ADD TO HISTORY
+  nh <- length(x@other$history)
+  x@other$history[[nh + 1]] <- match.call()    
   
+# FLAG SCRIPT END
+
+  if (verbose > 0) {
+    cat("Completed:",funname,"\n")
+  }
+
   return(x)
 }  
