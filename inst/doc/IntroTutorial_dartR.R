@@ -334,7 +334,7 @@ gl.tree.nj(glnew, type="fan")
 #  phy <- gl2phylip(gl, outfile="turtle.phy", bstrap=1000)
 
 ## ---- fig.height=4------------------------------------------------------------
-gl <- gl.ibd(gl=testset.gl[1:180,])
+gl <- gl.ibd(x=testset.gl[1:180,])
 
 ## ---- eval=FALSE--------------------------------------------------------------
 #  gl <- testset.gl
