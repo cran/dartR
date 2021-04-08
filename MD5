@@ -1,7 +1,7 @@
-35fec32bef16103e4e3d283165f96afb *DESCRIPTION
-259556765d29d0761df2d6914aa8e205 *NAMESPACE
-23c21abd2645fe4305d84b1e48bd75ec *R/datasets.r
-0b98ea35002c356eabcde9c33688c512 *R/gi2gl.R
+28294af47b6da5b84dcb211e9870efdf *DESCRIPTION
+5bbd786153831c87305b83c3dbef030f *NAMESPACE
+28604fad5f726197b0952da54b13257e *R/datasets.r
+8e3d8a1e9457d3dadbec0944e82a0831 *R/gi2gl.R
 fb07b0799c39400b1d54df8f105e2384 *R/gl.He.r
 6309b0f1b06f6db21a03fe2d9e4bc905 *R/gl.Ho.r
 adea051b9f62c213ba9a922be0ce8fed *R/gl.alf.r
@@ -41,11 +41,12 @@ e97c8dc4c01d06f57be4bd6da198fece *R/gl.filter.sexlinked.r
 3a41755b82b488802da403c2f1bc89e7 *R/gl.fixed.diff.r
 9ee69aadc9f6a001b2199667a5739ba6 *R/gl.fst.pop.r
 bf49b5cdda441dc94367cbdd73dcc019 *R/gl.gene.freq.r
-400405f1fdb78adcb8c62be34ddbd849 *R/gl.genleastcost.r
-e60fc8eef9db5fd4662582bed8098f7c *R/gl.grm.network.r
+b00900968ba4bba476b1fcab2dc0b43e *R/gl.genleastcost.r
+152fbf21911fe3f4e964a17ea7c38bb4 *R/gl.grm.network.r
 22702ff3ba92d1d9d98f6d010e27b02b *R/gl.grm.r
 5b182abbcfd535b346b950d7f9d37090 *R/gl.hwe.pop.r
 90dea8704d00f5b7999a356bf325283e *R/gl.ibd.r
+7c3a05a66b4ac2d8878f82c19197e4a2 *R/gl.install.vanilla.dartR.r
 5fc00a9fb131a6cc95d51e592b599a7b *R/gl.join.r
 570b17f5479ede11922919db2106af40 *R/gl.keep.ind.r
 f60bd0de8db43dba93fbf896118452b5 *R/gl.keep.loc.r
@@ -57,11 +58,11 @@ f60bd0de8db43dba93fbf896118452b5 *R/gl.keep.loc.r
 0a7d6ccda1f03f7cbd90d14be421a215 *R/gl.merge.pop.r
 942e815423ce5949ea335e1a867b7bcc *R/gl.nhybrids.r
 06fa6c75b30a050e1b08fe169e050762 *R/gl.outflank.r
-c004bd1157e4e2d2262555aa07440612 *R/gl.pcoa.plot.3d.r
+eef48022b5c5406048efd50c771b81ae *R/gl.pcoa.plot.3d.r
 98a18973fef4f50383b434a2ce843391 *R/gl.pcoa.plot.r
 bdc23665a0d3deac6a865e0ad1331de7 *R/gl.pcoa.r
 940d64a58f694586b6ae2c6ec36faa57 *R/gl.pcoa.scree.r
-7bf6c1068c317ca1c2d78cbf4782079a *R/gl.percent.freq.r
+70f03d5e98f5ededddc0bc2eff5d152d *R/gl.percent.freq.r
 fd47a12c40de034bf2591a5b015293fe *R/gl.play.history.r
 7e420a9963d385d4605f1b22a7c2d26d *R/gl.plot.heatmap.r
 56972d08bcf147e10795a1f8ede389a0 *R/gl.plot.network.r
@@ -83,7 +84,7 @@ ac2536fae5cea9806d571bd33cfb5461 *R/gl.report.bases.r
 81a80172c9d3d6380a8d38653b1bd349 *R/gl.report.hamming.r
 4cd53a742858d5192585d0788b87246a *R/gl.report.heterozygosity.r
 2c6bfa3b7dfc6894fd8a30d6233e2fc4 *R/gl.report.hwe.r
-ddfaf316b2465b46e91d5ac442978f10 *R/gl.report.ld.r
+cedc21830af2ef933b23cbae27171b76 *R/gl.report.ld.r
 d5370126e9a21c495300a97b4976e60b *R/gl.report.locmetric.r
 b7316685124a52db0dbb5e677a0f342e *R/gl.report.maf.r
 598f8c65d2d5ed61da247dc5f83b5f92 *R/gl.report.monomorphs.r
@@ -147,6 +148,7 @@ fdec9228fc3e59d8d40e44fe22e592f2 *R/utils.recalc.callrate.r
 ede00d21f8009c9fa279e5ea4aa52730 *R/utils.recalc.freqhomsnp.r
 ddec64c57cefe840e5942a0a11a60d55 *R/utils.recalc.maf.r
 e6e17f8ad453f87dfaebf831b8739a2c *R/utils.reset.flags.r
+c5482f637b002b725237fbc0f99db80b *R/zzz.r
 a2573f5a87ca003dcedc88aab745f07a *build/vignette.rds
 dd4f6bd1c87819ceede7d4968b366de0 *data/bandicoot.rda
 071ee38a9531d4242518c269470c18b3 *data/possums.gl.rda
@@ -155,9 +157,9 @@ a4c87e55ab02523101c17ca48dd1971f *data/testset.gs.rda
 ed928b821cbdb9ccb0e28c2d41f1e0ee *inst/CITATION
 0fbf3ae6791e2cee05be8812ff4e991a *inst/doc/IntroTutorial_dartR.R
 c690357181952eea7af28bd394350bd8 *inst/doc/IntroTutorial_dartR.Rmd
-23d1f439bfed77f7f6353772b196783a *inst/doc/IntroTutorial_dartR.pdf
+f2307b071d8b7ef0adc03cd916b82315 *inst/doc/IntroTutorial_dartR.pdf
 11e39716c95454614ad6e65a8ff3a27e *inst/doc/dartRTutorials.Rmd
-c4162b7968ff11aa4da5eff0eedf5c6f *inst/doc/dartRTutorials.pdf
+f17408550720cc7cc64fb24b27f07a34 *inst/doc/dartRTutorials.pdf
 0e81e930b87b635288085218a3e6d565 *inst/extdata/landscape.sim.rdata
 a398e58f8cde3aadff0237edcf6fd3e1 *inst/extdata/platy.csv
 48e86a4b2903418fdaa1635aceefb733 *inst/extdata/testset_SNPs_2Row.csv
@@ -167,7 +169,7 @@ c8c97f53ba2b1a569b1a1ed30e30c4a2 *inst/extdata/testset_metadata.csv
 8e5560f36fbc4131349331624fb5f69d *inst/extdata/testset_metadata_silicodart.csv
 a7794933b51595f2eac07013052678d5 *inst/extdata/testset_pop_recode.csv
 a5eda68bb90dabf029d67e107c70e25e *man/bandicoot.gl.Rd
-37d1147894997b859a59f38d4fe868a4 *man/gi2gl.Rd
+1ec8471c316a3fe06625408f40d600e4 *man/gi2gl.Rd
 4c830cf67546539639ae2ad26e05d058 *man/gl.He.Rd
 25659df88d6d6c673f8144f2d03444ca *man/gl.Ho.Rd
 32a2d11b45f6d11de5aecd82ab71e453 *man/gl.alf.Rd
@@ -193,7 +195,7 @@ baaa07b146f8d3d36c7ca0efe54ff9e5 *man/gl.filter.callrate.Rd
 84dc3db67c3f58bd703fe6b7c4243b0f *man/gl.filter.hamming.Rd
 96aeeb73786c2172e9a28ef4a0854320 *man/gl.filter.heterozygosity.Rd
 6da51764a6fc297bb0b25c0f69f2f05c *man/gl.filter.hwe.Rd
-0c03d2838a243559a06dc7191e0bacdf *man/gl.filter.locmetric.Rd
+61bc16e5a9aed465a3af85d647f0c4a5 *man/gl.filter.locmetric.Rd
 c4d5aead45d549561326f4e0aaf4abfc *man/gl.filter.maf.Rd
 fb3d10ba0de0be7bd9850f43618fbf0c *man/gl.filter.monomorphs.Rd
 2d43f4d5d9dd0b0b57d26a29dd6b82fe *man/gl.filter.overshoot.Rd
@@ -212,6 +214,7 @@ c10c633f16c3b2429f6b5de0991826e7 *man/gl.grm.Rd
 9b874b8b631bce9b6c00f4a1c11bbbbd *man/gl.grm.network.Rd
 b50770a32888393f5aba0b9c5dbb57ea *man/gl.hwe.pop.Rd
 b2a49b7028e00578839ce04c9197571f *man/gl.ibd.Rd
+42ce9a9a7271fd82de66bda6c9ebc9d0 *man/gl.install.vanilla.dartR.Rd
 ac1f481c95d6fdd994755a2db016e572 *man/gl.join.Rd
 4231906545accb8b39e87802b11b1a2c *man/gl.keep.ind.Rd
 2dc6970d19865ddc4b3dc198483c8575 *man/gl.keep.loc.Rd
@@ -249,8 +252,8 @@ aeebb35ca20a574c3056b03195045664 *man/gl.report.callrate.Rd
 83240ddec91941f3eecd311f9688e757 *man/gl.report.hamming.Rd
 c7e12e918265a2167636a38094b76049 *man/gl.report.heterozygosity.Rd
 78b88ddfb0fb796ede11b0e3273f16c7 *man/gl.report.hwe.Rd
-82b61d5b21161d27de16b8153a07876e *man/gl.report.ld.Rd
-9140be27f7233a4c23b84a12f3a7195d *man/gl.report.locmetric.Rd
+c9312564d169d606d7abf228967ff0d2 *man/gl.report.ld.Rd
+8b07bf70c6c1a2f616026737b440bb03 *man/gl.report.locmetric.Rd
 e62b7b3ded7793fe0f50f105d5c3a891 *man/gl.report.maf.Rd
 96bf6496e82c5ecb993cbe25f4611696 *man/gl.report.monomorphs.Rd
 9206930f7f60f7307ad3ed3e0b6d6382 *man/gl.report.overshoot.Rd
@@ -278,7 +281,7 @@ f62dd813e7423c8fd7117641692d7de5 *man/gl2fasta.Rd
 bd39d01c1494de7a773a962bfa539b1d *man/gl2gds.Rd
 6986e2b4a8894fc51e6c354306006f5f *man/gl2genalex.Rd
 641d489df91c4b223459767fd0e0e4e4 *man/gl2gi.Rd
-2e81c5fcbdf6965a65478a59cb89ec82 *man/gl2hiphop.Rd
+cc5e8425cb707123b703bfb173828c6c *man/gl2hiphop.Rd
 de79806707a161f0cc07b0b8d56509b8 *man/gl2phylip.Rd
 f6d8eccfb467bba09cd541bc1a889d7a *man/gl2plink.Rd
 ec770f5ae4a60ed23b5b9af3823754af *man/gl2related.Rd
@@ -289,7 +292,7 @@ ec770f5ae4a60ed23b5b9af3823754af *man/gl2related.Rd
 757d548885d0c2b430afa48f7966f979 *man/gl2svdquartets.Rd
 77610b77e3edebe0d212416e8a2adef5 *man/gl2treemix.Rd
 a92bd0f025414c614038fa6ddb8e2e95 *man/is.fixed.Rd
-69d1974c96bc875d7997af9bf5e0ed61 *man/platy.Rd
+ccea1a31d4bd80575f04bda26ac60090 *man/platy.Rd
 0e48c3a9024800442853aa9305a443b6 *man/possums.gl.Rd
 c577672c223e78269456d7f67be47702 *man/testset.gl.Rd
 c558085c11801e4554e90cec965febed *man/testset.gs.Rd
