@@ -1,11 +1,11 @@
-28294af47b6da5b84dcb211e9870efdf *DESCRIPTION
+9c58ccbd849855d86c8f39be65264db2 *DESCRIPTION
 5bbd786153831c87305b83c3dbef030f *NAMESPACE
 28604fad5f726197b0952da54b13257e *R/datasets.r
 8e3d8a1e9457d3dadbec0944e82a0831 *R/gi2gl.R
 fb07b0799c39400b1d54df8f105e2384 *R/gl.He.r
 6309b0f1b06f6db21a03fe2d9e4bc905 *R/gl.Ho.r
 adea051b9f62c213ba9a922be0ce8fed *R/gl.alf.r
-5c928089313d6bd564cdb4835de1e9c4 *R/gl.amova.r
+feaca66b61ee02f1d5b20b5fa59fb4e6 *R/gl.amova.r
 13e076ce9e220b913ac6fb52c170c238 *R/gl.assign.r
 94b049fb3bca7c66a9d9fa1f784415fa *R/gl.basic.stats.r
 1d459c7eece478ea4d5f3661640e4acf *R/gl.collapse.pval.r
@@ -157,9 +157,9 @@ a4c87e55ab02523101c17ca48dd1971f *data/testset.gs.rda
 ed928b821cbdb9ccb0e28c2d41f1e0ee *inst/CITATION
 0fbf3ae6791e2cee05be8812ff4e991a *inst/doc/IntroTutorial_dartR.R
 c690357181952eea7af28bd394350bd8 *inst/doc/IntroTutorial_dartR.Rmd
-f2307b071d8b7ef0adc03cd916b82315 *inst/doc/IntroTutorial_dartR.pdf
+0f1f666dc8d877fea5e59fa40d576fd0 *inst/doc/IntroTutorial_dartR.pdf
 11e39716c95454614ad6e65a8ff3a27e *inst/doc/dartRTutorials.Rmd
-f17408550720cc7cc64fb24b27f07a34 *inst/doc/dartRTutorials.pdf
+800d2becccaa2f3782635a2d1af05d31 *inst/doc/dartRTutorials.pdf
 0e81e930b87b635288085218a3e6d565 *inst/extdata/landscape.sim.rdata
 a398e58f8cde3aadff0237edcf6fd3e1 *inst/extdata/platy.csv
 48e86a4b2903418fdaa1635aceefb733 *inst/extdata/testset_SNPs_2Row.csv
@@ -173,7 +173,7 @@ a5eda68bb90dabf029d67e107c70e25e *man/bandicoot.gl.Rd
 4c830cf67546539639ae2ad26e05d058 *man/gl.He.Rd
 25659df88d6d6c673f8144f2d03444ca *man/gl.Ho.Rd
 32a2d11b45f6d11de5aecd82ab71e453 *man/gl.alf.Rd
-3db9092ed3956cd43406754ef3d4c37c *man/gl.amova.Rd
+af32bea1c0cacfa7fbcab8e06eb1e0d4 *man/gl.amova.Rd
 a81a498467c6331ebc0aeb51aabbf7b4 *man/gl.assign.Rd
 79af149fa6145abd57596f0161637cad *man/gl.basic.stats.Rd
 9b1c6de0f3f2ce5861246298d6b7070f *man/gl.collapse.Rd
