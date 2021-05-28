@@ -1,4 +1,4 @@
-9c58ccbd849855d86c8f39be65264db2 *DESCRIPTION
+0cec9e8fc7b42b1db911caf4f4b4e950 *DESCRIPTION
 5bbd786153831c87305b83c3dbef030f *NAMESPACE
 28604fad5f726197b0952da54b13257e *R/datasets.r
 8e3d8a1e9457d3dadbec0944e82a0831 *R/gi2gl.R
@@ -83,7 +83,7 @@ ac2536fae5cea9806d571bd33cfb5461 *R/gl.report.bases.r
 4eb6dede770fa81b39171f9067185792 *R/gl.report.diversity.r
 81a80172c9d3d6380a8d38653b1bd349 *R/gl.report.hamming.r
 4cd53a742858d5192585d0788b87246a *R/gl.report.heterozygosity.r
-2c6bfa3b7dfc6894fd8a30d6233e2fc4 *R/gl.report.hwe.r
+87effb6f18ce96cceb51f9c25d01748b *R/gl.report.hwe.r
 cedc21830af2ef933b23cbae27171b76 *R/gl.report.ld.r
 d5370126e9a21c495300a97b4976e60b *R/gl.report.locmetric.r
 b7316685124a52db0dbb5e677a0f342e *R/gl.report.maf.r
@@ -148,8 +148,8 @@ fdec9228fc3e59d8d40e44fe22e592f2 *R/utils.recalc.callrate.r
 ede00d21f8009c9fa279e5ea4aa52730 *R/utils.recalc.freqhomsnp.r
 ddec64c57cefe840e5942a0a11a60d55 *R/utils.recalc.maf.r
 e6e17f8ad453f87dfaebf831b8739a2c *R/utils.reset.flags.r
-c5482f637b002b725237fbc0f99db80b *R/zzz.r
-a2573f5a87ca003dcedc88aab745f07a *build/vignette.rds
+6f868c8f9f73bbe4898be2495cbf0bdb *R/zzz.r
+741b6daa1f97cd36fa76583996ff35b1 *build/vignette.rds
 dd4f6bd1c87819ceede7d4968b366de0 *data/bandicoot.rda
 071ee38a9531d4242518c269470c18b3 *data/possums.gl.rda
 1e8bc10ed181b1ed080d54cf3c55cf18 *data/testset.gl.rda
@@ -157,9 +157,9 @@ a4c87e55ab02523101c17ca48dd1971f *data/testset.gs.rda
 ed928b821cbdb9ccb0e28c2d41f1e0ee *inst/CITATION
 0fbf3ae6791e2cee05be8812ff4e991a *inst/doc/IntroTutorial_dartR.R
 c690357181952eea7af28bd394350bd8 *inst/doc/IntroTutorial_dartR.Rmd
-0f1f666dc8d877fea5e59fa40d576fd0 *inst/doc/IntroTutorial_dartR.pdf
+30162dadc9e363c463840409a1ff9bc5 *inst/doc/IntroTutorial_dartR.pdf
 11e39716c95454614ad6e65a8ff3a27e *inst/doc/dartRTutorials.Rmd
-800d2becccaa2f3782635a2d1af05d31 *inst/doc/dartRTutorials.pdf
+67534750fc509507909d455df41bd924 *inst/doc/dartRTutorials.pdf
 0e81e930b87b635288085218a3e6d565 *inst/extdata/landscape.sim.rdata
 a398e58f8cde3aadff0237edcf6fd3e1 *inst/extdata/platy.csv
 48e86a4b2903418fdaa1635aceefb733 *inst/extdata/testset_SNPs_2Row.csv
@@ -299,7 +299,7 @@ c558085c11801e4554e90cec965febed *man/testset.gs.Rd
 a316f63378758dd2f6d85cdc4dae90b1 *man/testset_SNPs_2Row.Rd
 e57ccaa2e7d6b29100a16401d67a40b0 *man/testset_metadata.Rd
 6f8ba0b0d11dd586bb130bd81cf21f3f *man/testset_pop_recode.Rd
-1959a59e47e7d2b7d78fc7686a228f6b *man/util.outflank.MakeDiploidFSTMat.Rd
+ace00a29215e69f621f7b3f34246112b *man/util.outflank.MakeDiploidFSTMat.Rd
 bea6af087b9be387ee7ec534f7b6c849 *man/util.outflank.Rd
 35de1e78646543f0b10965defe0547aa *man/util.outflank.plotter.Rd
 c6b1fe2b10ef5ce24bc318b2e434781b *man/utils.dart2genlight.Rd
