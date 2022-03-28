@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #  BiocManager::install(c("SNPRelate", "qvalue"))
 #  install_github("green-striped-gecko/dartR")
 #  library(dartR)
+#  
 
 ## -----------------------------------------------------------------------------
  library(dartR)
@@ -102,7 +103,7 @@ platy.gl@other$loc.metrics <- df.loc
 
 
 ## -----------------------------------------------------------------------------
-gl.report.callrate(platy.gl)
+gl.report.callrate(testset.gl)
 gl2 <- gl.filter.reproducibility(platy.gl, t=0.5)
 
 ## -----------------------------------------------------------------------------
@@ -130,7 +131,7 @@ gl2 <- gl.filter.reproducibility(gl, t=1)
 gl2 <- gl.filter.monomorphs(gl, v=0)
 
 ## -----------------------------------------------------------------------------
-gl2 <- gl.filter.hamming(testset.gl, t=0.25, pb = F)
+gl2 <- gl.filter.hamming(testset.gl, threshold = 0.25, pb = F)
 
 ## ---- eval=F------------------------------------------------------------------
 #  gl2 <- gl.filter.callrate(gl, method = "loc", threshold = 0.95)
@@ -241,7 +242,7 @@ gg <- gl[1:7,1:100]
 gg@other$loc.metrics <- gg@other$loc.metrics[1:100,]
 
 gl.dist.pop(gg, method="euclidean")
-gl.dist.pop(gg, method="manhattan")
+gl.dist.pop(gg, method="reynolds")
 
 ## -----------------------------------------------------------------------------
 glind7 <- gl[1:7,]  #copy and store the original dataset in glind
@@ -281,7 +282,7 @@ names(pc)
 barplot(pc$eig/sum(pc$eig)*100, )
 
 ## ---- fig.height=5------------------------------------------------------------
-gl.pcoa.plot(pc, gl, labels="pop", xaxis=1, yaxis=2)
+gl.pcoa.plot(pc, gl, pop.labels="pop", xaxis=1, yaxis=2)
 
 
 ## ----eval=FALSE---------------------------------------------------------------
@@ -291,7 +292,7 @@ gl.pcoa.plot(pc, gl, labels="pop", xaxis=1, yaxis=2)
 glnew <- testset.gl
 levels(pop(glnew)) <- c(rep("Coast",5),rep("Cooper",3),rep("Coast",5),
 rep("MDB",8),rep("Coast",7),"Em.subglobosa","Em.victoriae")
-gl.pcoa.plot(pc, glnew, labels="pop", xaxis=1, yaxis=2)
+gl.pcoa.plot(pc, glnew, pop.labels="pop", xaxis=1, yaxis=2)
 
 ## ---- eval=FALSE--------------------------------------------------------------
 #  install.packages("devtools")
@@ -303,9 +304,6 @@ gl.pcoa.plot(pc, glnew, labels="pop", xaxis=1, yaxis=2)
 #  gl.pcoa.plot(pc, glnew, labels="interactive", xaxis=1, yaxis=2)
 #  ggplotly()
 #  
-
-## ---- fig.height=4------------------------------------------------------------
-gl.pcoa.scree(pc)
 
 ## ---- eval=FALSE--------------------------------------------------------------
 #  gl.pcoa.plot.3d(pc, glnew)
@@ -362,10 +360,10 @@ gl.report.bases(testset.gl)
 gl.report.bases(testset.gl)
 
 ## -----------------------------------------------------------------------------
-x <- gl.assign(testset.gl, unknown = "UC_00146", nmin=10, t=0)
+x <- gl.assign.pa(testset.gl, unknown = "UC_00146", nmin=10, t=0)
 
 ## ---- fig.height=4------------------------------------------------------------
-x <- gl.assign(testset.gl, unknown ="UC_00146", nmin=10, alpha=0.95, t=1)
+#x <- gl.assign.pca(x, unknown ="UC_00146", plevel=0.95)
 
 ## -----------------------------------------------------------------------------
 gl <- testset.gl
