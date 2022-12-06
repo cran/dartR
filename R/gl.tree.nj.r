@@ -23,11 +23,14 @@
 #' @author Custodian: Arthur Georges (Post to
 #' \url{https://groups.google.com/d/forum/dartr})
 #' @examples
+#'  \donttest{
 #' # SNP data
 #'   gl.tree.nj(testset.gl,type='fan')
 #' # Tag P/A data
 #'   gl.tree.nj(testset.gs,type='fan')
-
+#'   }
+#'   res <- gl.tree.nj(platypus.gl)
+#'   
 gl.tree.nj <- function(x,
                        type = "phylogram",
                        outgroup = NULL,
@@ -54,7 +57,7 @@ gl.tree.nj <- function(x,
             "  Converting to a matrix of frequencies, locus by populations\n"
         ))
     }
-    t = apply(as.matrix(x), 2, tapply, pop(x), function(e)
+    t <-apply(as.matrix(x), 2, tapply, pop(x), function(e)
         mean(e) / 2)
     # Compute Euclidean distance
     if (verbose >= 2) {

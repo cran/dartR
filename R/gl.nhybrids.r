@@ -264,9 +264,13 @@ gl.nhybrids <- function(gl,
                                   loc.limit,
                                   method = "random",
                                   verbose = 0)
-            gl.fixed.all <- gl[, (locNames(gl) %in% fixed.loci)]
-            gl.fixed.all@other$loc.metrics <-
+           
+         
+              gl.fixed.all <- gl[, (locNames(gl) %in% fixed.loci)]
+              gl.fixed.all@other$loc.metrics <-
                 gl@other$loc.metrics[(locNames(gl) %in% fixed.loci), ]
+            
+       
             gl2nhyb <- gl.fixed.used
         } else {
             if (method == "random") {
@@ -764,7 +768,7 @@ gl.nhybrids <- function(gl,
     
     if (flag == "bothpar" & plot == TRUE) {
         # Read in the results of the New Hybrids analysis
-        F1.test <- read.csv(file = "aa-Pofz.csv")
+        F1.test <- read.csv(file = "aa-PofZ.csv")
         # Pull out results for F1 hybrids only, defined by posterior probability >= pprob
         F1.test <- F1.test[(F1.test$F1 >= pprob), ]
         # Use the id of the F1 hybrids to subset the genlight object containing the loci with fixed differences used in the analysis

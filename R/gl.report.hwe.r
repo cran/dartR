@@ -1,13 +1,16 @@
 #' @name gl.report.hwe
 #' @title Reports departure from Hardy-Weinberg proportions
 #' @description
-#' Calculates the probabilities of agreement with H-W proportions based on observed
-#' frequencies of reference homozygotes, heterozygotes and alternate homozygotes.
+#' Calculates the probabilities of agreement with H-W proportions based on 
+#' observed
+#' frequencies of reference homozygotes, heterozygotes and alternate 
+#' homozygotes.
 #'
 #' @param x Name of the genlight object containing the SNP data [required].
 #' @param subset Way to group individuals to perform H-W tests. Either a vector
 #' with population names, 'each', 'all' (see details) [default 'each'].
-#' @param method_sig Method for determining statistical significance: 'ChiSquare'
+#' @param method_sig Method for determining statistical significance: 
+#' 'ChiSquare'
 #' or 'Exact' [default 'Exact'].
 #' @param multi_comp Whether to adjust p-values for multiple comparisons
 #' [default FALSE].
@@ -127,11 +130,13 @@
 #' heterozygotes and alternate SNP homozygotes; probability of departure from
 #' H-W proportions, per locus significance with and without correction for
 #' multiple comparisons and the number of population where the same locus is 
-#' significantly out of hwe.
+#' significantly out of HWE.
 #' @author Custodian: Luis Mijangos -- Post to
 #' \url{https://groups.google.com/d/forum/dartr}
-#' @examples
-#' gl.report.hwe(x = bandicoot.gl)
+ #@examples
+ #\dontrun{
+ #gl.report.hwe(x = bandicoot.gl)
+ #}
 #' @references
 #' \itemize{
 #'  \item Benjamini, Y., and Yekutieli, D. (2001). The control of the false
@@ -158,7 +163,7 @@
 #' 76:887-893.
 #' }
 #' @seealso \code{\link{gl.filter.hwe}}
-#' @family filters/filter reports
+#' @family report functions
 #' @export
 
 gl.report.hwe <- function(x,
@@ -191,27 +196,30 @@ gl.report.hwe <- function(x,
     # FUNCTION SPECIFIC ERROR CHECKING check if packages are installed
     pkg <- "HardyWeinberg"
     if (!(requireNamespace(pkg, quietly = TRUE))) {
-        stop(error(
-            "Package",
-            pkg,
-            " needed for this function to work. Please install it."
-        ))
+      cat(error(
+        "Package",
+        pkg,
+        " needed for this function to work. Please install it.\n"
+      ))
+      return(-1)
     }
     
-    pkg <- "ggtern"
-    if (!(requireNamespace(pkg, quietly = TRUE))) {
-        stop(error(
-            "Package",
-            pkg,
-            " needed for this function to work. Please install it."
-        ))
-    }
+    # pkg <- "ggtern"
+    # if (!(requireNamespace(pkg, quietly = TRUE))) {
+    #   cat(error(
+    #     "Package",
+    #     pkg,
+    #     " needed for this function to work. Please install it.\n"
+    #   ))
+    #   return(-1)
+    # }
     
     if (datatype == "SilicoDArT") {
         cat(error("  Detected Presence/Absence (SilicoDArT) data\n"))
         stop(
             error(
-                "Cannot calculate HWE from fragment presence/absence data. Please provide a SNP dataset.\n"
+                "Cannot calculate HWE from fragment presence/absence data. 
+                Please provide a SNP dataset.\n"
             )
         )
     }
@@ -219,7 +227,8 @@ gl.report.hwe <- function(x,
     if (alpha_val < 0 | alpha_val > 1) {
         cat(
             warn(
-                "    Warning: level of significance per locus alpha must be an integer between 0 and 1, set to 0.05\n"
+                "    Warning: level of significance per locus alpha must be an 
+                integer between 0 and 1, set to 0.05\n"
             )
         )
         alpha_val <- 0.05
@@ -235,7 +244,8 @@ gl.report.hwe <- function(x,
         if (verbose >= 3) {
             cat(
                 warn(
-                    "  Warning: Significance of tests may indicate heterogeneity among populations\n\n"
+                    "  Warning: Significance of tests may indicate heterogeneity
+                    among populations\n\n"
                 )
             )
         }
@@ -260,7 +270,8 @@ gl.report.hwe <- function(x,
         if (pops_hwe == 0) {
             stop(
                 error(
-                    "Fatal Error: subset parameter must be \"each\", \"all\", or a list of populations existing in the dataset\n"
+                    "Fatal Error: subset parameter must be \"each\", \"all\", 
+                    or a list of populations existing in the dataset\n"
                 )
             )
         }
@@ -281,7 +292,8 @@ gl.report.hwe <- function(x,
         if (verbose >= 3) {
             cat(
                 warn(
-                    "  Warning: Significance of tests may indicate heterogeneity among populations\n\n"
+                    "  Warning: Significance of tests may indicate 
+                    heterogeneity among populations\n\n"
                 )
             )
         }
@@ -339,7 +351,8 @@ gl.report.hwe <- function(x,
     if (length(poplist) < 1) {
         stop(
             error(
-                "No populations left after removing populations with low sample size and populations with monomorphic loci"
+                "No populations left after removing populations with low sample 
+                size and populations with monomorphic loci"
             )
         )
     }
@@ -522,7 +535,9 @@ gl.report.hwe <- function(x,
             
             
             p_temp <-
-                ggtern::ggtern() + geom_point(
+              ggplot() + geom_point(
+                
+              # ggtern::ggtern() + geom_point(
                     data = mat_genotypes,
                     aes(
                         x = AA,
@@ -559,13 +574,19 @@ gl.report.hwe <- function(x,
                     ),
                     size = 1,
                     color = "darkgreen"
-                ) + ggtern::theme_void() + theme(
+                ) + ggtern::theme_void() +
+              # ) + theme_void_2() +
+                theme(
                     plot.subtitle = element_text(hjust = 0.5, vjust = 1),
                     tern.axis.line = element_line(color = "black",
                                                   size = 1)
-                ) + ggtern::theme_hidelabels() + labs(subtitle = subtitle_plot)
+                # ) + ggtern::theme_hidelabels() + labs(subtitle = subtitle_plot)
+            ) + ggtern::theme_hidelabels() +
+              # ) + theme_hidelabels() +
+              labs(subtitle = subtitle_plot) 
+
+            p_list[[count]] <- p_temp  + ggtern::coord_tern()
             
-            p_list[[count]] <- p_temp
             
         }
         
@@ -582,12 +603,14 @@ gl.report.hwe <- function(x,
         seq_2 <- c(seq_2, length(p_list))
         for (i in 1:ceiling((length(p_list) / max_plots))) {
             p_final <-
-                ggtern::grid.arrange(grobs = p_list[seq_1[i]:seq_2[i]], ncol = 2)
+            ggtern::grid.arrange(grobs = p_list[seq_1[i]:seq_2[i]], ncol = 2)
+              # gridExtra::grid.arrange(grobs = p_list[seq_1[i]:seq_2[i]], ncol = 2)
+            
             # SAVE INTERMEDIATES TO TEMPDIR
             if (save2tmp) {
                 # creating temp file names
                 temp_plot <-
-                    tempfile(pattern = paste0("Plot_", seq_1[i], "_to_", seq_2[i]))
+                tempfile(pattern = paste0("Plot_", seq_1[i], "_to_", seq_2[i]))
                 # saving to tempdir
                 saveRDS(list(match_call, p_final), file = temp_plot)
                 if (verbose >= 2) {
@@ -601,20 +624,19 @@ gl.report.hwe <- function(x,
     # removing column with color name
     df <- data.table(result[,-11])
     npop <- Locus <- NULL
-    df[, npop := .N, by=Locus]
-    
+
     #### Report the results
     if(sig_only) {
         if (multi_comp == F) {
             df <- df[which(df$Prob <= alpha_val),]
+            df[, npop := .N, by=Locus]
         }
         if (multi_comp == T) {
             df <- df[which(df$Prob.adj <= alpha_val),]
+            df[, npop := .N, by=Locus]
         }
     }
     df <- df[order(df$Locus),]
-    
-    
     
     # SAVE INTERMEDIATES TO TEMPDIR
     if (save2tmp) {
@@ -631,7 +653,8 @@ gl.report.hwe <- function(x,
             cat(report("  Saving tabulation to session tempfile\n"))
             cat(
                 report(
-                    "  NOTE: Retrieve output files from tempdir using gl.list.reports() and gl.print.reports()\n"
+                    "  NOTE: Retrieve output files from tempdir using 
+                    gl.list.reports() and gl.print.reports()\n"
                 )
             )
         }
@@ -640,7 +663,8 @@ gl.report.hwe <- function(x,
     # FLAG SCRIPT END
     
     if (verbose >= 1) {
-        cat("    Reporting significant departures from Hardy-Weinberg Equilibrium\n")
+        cat("    Reporting significant departures from Hardy-Weinberg 
+            Equilibrium\n")
         if (nrow(df) == 0) {
             cat("    No significant departures\n")
         } else {
@@ -649,7 +673,8 @@ gl.report.hwe <- function(x,
                 "are listed\n")
             cat(
                 important(
-                    "    Adjustment of p-values for multiple comparisons vary with sample size\n"
+                    "    Adjustment of p-values for multiple comparisons vary
+                    with sample size\n"
                 )
             )
             print(df, row.names = FALSE)
@@ -662,3 +687,5 @@ gl.report.hwe <- function(x,
     invisible(df)
     
 }
+
+

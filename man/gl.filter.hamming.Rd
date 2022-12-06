@@ -70,16 +70,16 @@ The algorithm is that of Johann de Jong
 \url{https://johanndejong.wordpress.com/2015/10/02/faster-hamming-distance-in-r-2/}
 as implemented in \code{\link{utils.hamming}}.
 
-Only one of two loci are retained if their Hamming distance is less that a specified
+Only one of two loci are retained if their Hamming distance is less that a 
+specified
 percentage. 5 base differences out of 100 bases is a 20% Hamming distance.
 }
 \examples{
 # SNP data
-  result <- gl.filter.hamming(testset.gl, threshold=0.25, verbose=3)
+test <- platypus.gl
+test <- gl.subsample.loci(platypus.gl,n=50)
+result <- gl.filter.hamming(test, threshold=0.25, verbose=3)
 
-}
-\seealso{
-\code{\link{gl.filter.hamming}}
 }
 \author{
 Custodian: Arthur Georges -- Post to

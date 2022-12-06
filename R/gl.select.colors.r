@@ -83,19 +83,22 @@ gl.select.colors <- function(x = NULL,
     # CHECK PACKAGES
     pkg <- "RColorBrewer"
     if (!(requireNamespace(pkg, quietly = TRUE))) {
-        stop(error(
-            "Package",
-            pkg,
-            " needed for this function to work. Please install it."
-        ))
+      cat(error(
+        "Package",
+        pkg,
+        " needed for this function to work. Please install it.\n"
+      ))
+      return(-1)
     }
+    
     pkg <- "scales"
     if (!(requireNamespace(pkg, quietly = TRUE))) {
-        stop(error(
-            "Package",
-            pkg,
-            " needed for this function to work. Please install it."
-        ))
+      cat(error(
+        "Package",
+        pkg,
+        " needed for this function to work. Please install it.\n"
+      ))
+      return(-1)
     }
     
     # SCRIPT SPECIFIC ERROR CHECKING
@@ -159,7 +162,7 @@ gl.select.colors <- function(x = NULL,
     # DO THE JOB
     
     if (is.null(library)) {
-        palette = NULL
+        palette <-NULL
         if (verbose >= 2) {
             cat(warn(
                 "  Warning: No color library or palette specified, set to default\n"

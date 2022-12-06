@@ -79,6 +79,7 @@
 #'  \url{https://groups.google.com/d/forum/dartr}
 #'
 #' @examples
+#' \donttest{
 #' # SET UP DATASET
 #' gl <- testset.gl
 #' levels(pop(gl))<-c(rep('Coast',5),rep('Cooper',3),rep('Coast',5),
@@ -105,7 +106,9 @@
 #' pt.colors=col, pt.shapes=shp, axis.label.size=1, hadjust=1.5,vadjust=1)
 #' gl.pcoa.plot(pca, gl, ellipse=TRUE, plevel=0.99, pop.labels='legend',
 #'  pt.colors=col, pt.shapes=shp, axis.label.size=1)
-#'
+#'  }
+#'  test <- gl.pcoa(platypus.gl)
+#'  gl.pcoa.plot(glPca = test, x = platypus.gl)
 #' @seealso \code{\link{gl.pcoa}}
 #' @family Exploration/visualisation functions
 #' @rawNamespace import(data.table, except = c(melt,dcast))
@@ -146,47 +149,57 @@ gl.pcoa.plot <- function(glPca,
     
     # CHECK DATATYPE
     datatype1 <-
-        utils.check.datatype(glPca, accept = c("glPca","list"), verbose = verbose)
+        utils.check.datatype(glPca, accept = c("glPca","list"),
+                             verbose = verbose)
     datatype2 <-
         utils.check.datatype(x,
-                             accept = c("SNP", "SilicoDArT", "fd", "dist","list"),
+                             accept = c("SNP", "SilicoDArT", "fd",
+                                        "dist","list"),
                              verbose = verbose)
     
     # SCRIPT SPECIFIC ERROR CHECKING
+    pkg <- "directlabels"
+    if (!(requireNamespace(pkg, quietly = TRUE))) {
+      cat(error(
+        "Package",
+        pkg,
+        " needed for this function to work. Please install it.\n"
+      ))
+      return(-1)
+    }
+    
     
     if (interactive | !is.null(zaxis)) {
         pkg <- "plotly"
         if (!(requireNamespace(pkg, quietly = TRUE))) {
-            stop(
-                error(
-                    "Package ",
-                    pkg,
-                    " needed for this function to work. Please install it."
-                )
-            )
+          cat(error(
+            "Package",
+            pkg,
+            " needed for this function to work. Please install it.\n"
+          ))
+          return(-1)
         }
     }
     
     if (datatype1=="list") {
         pkg <- "gganimate"
         if (!(requireNamespace(pkg, quietly = TRUE))) {
-            stop(
-                error(
-                    "Package ",
-                    pkg,
-                    " needed for this function to work. Please install it."
-                )
-            )
+          cat(error(
+            "Package",
+            pkg,
+            " needed for this function to work. Please install it.\n"
+          ))
+          return(-1)
         }
+        
         pkg <- "tibble"
         if (!(requireNamespace(pkg, quietly = TRUE))) {
-            stop(
-                error(
-                    "Package ",
-                    pkg,
-                    " needed for this function to work. Please install it."
-                )
-            )
+          cat(error(
+            "Package",
+            pkg,
+            " needed for this function to work. Please install it.\n"
+          ))
+          return(-1)
         }
         x <- x[[1]]
         glPca <- glPca[[1]]
@@ -488,8 +501,7 @@ gl.pcoa.plot <- function(glPca,
                 plott + geom_hline(yintercept = 0) + 
                 geom_vline(xintercept = 0) + 
                 theme(legend.position = "none")
-            # Scale the axes in proportion to % explained, if requested if(scale==TRUE) { plott <- plott +
-            # coord_fixed(ratio=e[yaxis]/e[xaxis]) }
+            # Scale the axes in proportion to % explained, if requested if(scale==TRUE) 
             if (scale == TRUE) {
                 plott <- plott + coord_fixed(ratio = e[yaxis]/ e[xaxis])
             }
@@ -545,10 +557,9 @@ gl.pcoa.plot <- function(glPca,
                     )
                 ) +
                 labs(x = xlab, y = ylab) + geom_hline(yintercept = 0) + geom_vline(xintercept = 0) + theme(legend.position = "none")
-            # Scale the axes in proportion to % explained, if requested if(scale==TRUE) { plott <- plott +
-            # coord_fixed(ratio=e[yaxis]/e[xaxis]) }
+            # Scale the axes in proportion to % explained, if requested if(scale==TRUE) 
             if (scale == TRUE) {
-                plott <- plott + coord_fixed(ratio = 1)
+              plott <- plott + coord_fixed(ratio = e[yaxis]/ e[xaxis])
             }
             # Add ellipses if requested
             if (ellipse == TRUE) {
@@ -630,10 +641,9 @@ gl.pcoa.plot <- function(glPca,
             }
             plott <-
                 plott + geom_hline(yintercept = 0) + geom_vline(xintercept = 0)
-            # Scale the axes in proportion to % explained, if requested if(scale==TRUE) { plott <- plott +
-            # coord_fixed(ratio=e[yaxis]/e[xaxis]) }
+            # Scale the axes in proportion to % explained, if requested if(scale==TRUE)
             if (scale == TRUE) {
-                plott <- plott + coord_fixed(ratio = 1)
+              plott <- plott + coord_fixed(ratio = e[yaxis]/ e[xaxis])
             }
             # Add ellipses if requested
             if (ellipse == TRUE) {
@@ -692,10 +702,9 @@ gl.pcoa.plot <- function(glPca,
             }
             plott <-
                 plott + geom_hline(yintercept = 0) + geom_vline(xintercept = 0) + theme(legend.position = "none")
-            # Scale the axes in proportion to % explained, if requested if(scale==TRUE) { plott <- plott +
-            # coord_fixed(ratio=e[yaxis]/e[xaxis]) }
+            # Scale the axes in proportion to % explained, if requested if(scale==TRUE)
             if (scale == TRUE) {
-                plott <- plott + coord_fixed(ratio = 1)
+              plott <- plott + coord_fixed(ratio = e[yaxis]/ e[xaxis])
             }
             # Add ellipses if requested
             if (ellipse == TRUE) {

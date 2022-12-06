@@ -25,7 +25,9 @@
 #' @author Bernd Gruber (bugs? Post to
 #' \url{https://groups.google.com/d/forum/dartr})
 #' @examples
-#' out <- gl.fst.pop(possums.gl, nboots=1)
+#' test <- gl.filter.callrate(platypus.gl,threshold = 1)
+#' test <- gl.filter.monomorphs(test)
+#' out <- gl.fst.pop(test, nboots=1)
 
 gl.fst.pop <- function(x,
                        nboots = 100,
@@ -45,7 +47,7 @@ gl.fst.pop <- function(x,
     datatype <- utils.check.datatype(x, verbose = verbose)
     
     # DO THE JOB
-    
+    class(x)<- "genlight" #needs to be genlight due to stampp
     fsts <-
         stamppFst(x,
                   nboots = nboots,

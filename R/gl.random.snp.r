@@ -28,7 +28,8 @@
 #' @author Custodian: Luis Mijangos -- Post to
 #'  \url{https://groups.google.com/d/forum/dartr}
 #' @examples
-#' res <- gl.random.snp(platypus.gl[1:10,1:10],verbose = 5)
+#' require("dartR.data")
+#' res <- gl.random.snp(platypus.gl[1:5,1:5],verbose = 5)
 #'
 #' @export
 

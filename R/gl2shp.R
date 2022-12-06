@@ -51,11 +51,12 @@ gl2shp <- function(x,
     # CHECK IF PACKAGES ARE INSTALLED
     pkg <- "terra"
     if (!(requireNamespace(pkg, quietly = TRUE))) {
-        stop(error(
-            "Package",
-            pkg,
-            " needed for this function to work. Please   install it."
-        ))
+      cat(error(
+        "Package",
+        pkg,
+        " needed for this function to work. Please install it.\n"
+      ))
+      return(-1)
     } else {
         if (is.null(x@other$latlon)) {
             stop(error(
@@ -108,7 +109,7 @@ gl2shp <- function(x,
         sp::coordinates(glpoints) <- c("lon", "lat")
         
         # create all sites point shp files
-        spdf = SpatialPointsDataFrame(glpoints, data.frame(glpoints))
+        spdf <-SpatialPointsDataFrame(glpoints, data.frame(glpoints))
         proj4string(spdf) <- CRS(proj4)
         # if (!is.null(reproj4)) spdf <- project(spdf, proj = reproj4, inv = TRUE)
         #now use terra

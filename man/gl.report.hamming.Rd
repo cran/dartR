@@ -83,27 +83,41 @@ as implemented in \code{\link{utils.hamming}}
  }
 }
 \examples{
+ \donttest{
 gl.report.hamming(testset.gl[,1:100])
 gl.report.hamming(testset.gs[,1:100])
+}
+
+#' # SNP data
+test <- platypus.gl
+test <- gl.subsample.loci(platypus.gl,n=50)
+result <- gl.filter.hamming(test, threshold=0.25, verbose=3)
 
 }
 \seealso{
 \code{\link{gl.filter.hamming}}
 
-Other filters and filter reports: 
-\code{\link{gl.filter.allna}()},
-\code{\link{gl.filter.monomorphs}()},
-\code{\link{gl.filter.rdepth}()},
-\code{\link{gl.filter.reproducibility}()},
-\code{\link{gl.filter.secondaries}()},
+Other report functions: 
+\code{\link{gl.report.bases}()},
 \code{\link{gl.report.callrate}()},
+\code{\link{gl.report.diversity}()},
+\code{\link{gl.report.heterozygosity}()},
+\code{\link{gl.report.hwe}()},
+\code{\link{gl.report.ld.map}()},
 \code{\link{gl.report.locmetric}()},
+\code{\link{gl.report.maf}()},
 \code{\link{gl.report.monomorphs}()},
+\code{\link{gl.report.overshoot}()},
+\code{\link{gl.report.parent.offspring}()},
+\code{\link{gl.report.pa}()},
 \code{\link{gl.report.rdepth}()},
 \code{\link{gl.report.reproducibility}()},
+\code{\link{gl.report.secondaries}()},
+\code{\link{gl.report.sexlinked}()},
 \code{\link{gl.report.taglength}()}
 }
 \author{
-Custodian: Arthur Georges -- Post to \url{https://groups.google.com/d/forum/dartr}
+Custodian: Arthur Georges -- Post to 
+\url{https://groups.google.com/d/forum/dartr}
 }
-\concept{filters and filter reports}
+\concept{report functions}

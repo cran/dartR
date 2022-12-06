@@ -20,9 +20,11 @@
 #' \dontrun{
 #' data(possums.gl)
 #' library(raster)  #needed for that example
-#' landscape.sim <- readRDS(system.file('extdata','landscape.sim.rdata', package='dartR'))
+#' landscape.sim <- readRDS(system.file('extdata','landscape.sim.rdata', 
+#' package='dartR'))
 #' #calculate mean centers of individuals per population
-#' xy <- apply(possums.gl@other$xy, 2, function(x) tapply(x, pop(possums.gl), mean))
+#' xy <- apply(possums.gl@other$xy, 2, function(x) tapply(x, pop(possums.gl),
+#'  mean))
 #' cd <- gl.costdistances(landscape.sim, xy, method='leastcost', NN=8)
 #' round(cd,3)
 #' }
@@ -44,25 +46,28 @@ gl.costdistances <- function(landscape,
     # CHECK IF PACKAGES ARE INSTALLED
     pkg <- "gdistance"
     if (!(requireNamespace(pkg, quietly = TRUE))) {
-        stop(error(
-            "Package",
-            pkg,
-            " needed for this function to work. Please install it."
-        ))
+      cat(error(
+        "Package",
+        pkg,
+        " needed for this function to work. Please install it.\n"
+      ))
+      return(-1)
     }
     
     if (is(locs, "genlight")) {
         if (is.null(locs@other$latlon)) {
             stop(
                 error(
-                    "No locations were provided in the genlight object [@other$latlon].\n"
+                    "No locations were provided in the genlight object
+                    [@other$latlon].\n"
                 )
             )
         }
         if (is.null(pop(locs))) {
             cat(
                 warn(
-                    "No population definition provided, hence I will calculate costdistances between individuals\n"
+                    "No population definition provided, hence I will calculate 
+                    costdistances between individuals\n"
                 )
             )
             pop(locs) <- indNames(locs)

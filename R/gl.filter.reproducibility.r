@@ -30,14 +30,20 @@
 #' @author Custodian: Arthur Georges -- Post to
 #' \url{https://groups.google.com/d/forum/dartr}
 #' @examples
+#'  \donttest{
 #' # SNP data
 #'   gl.report.reproducibility(testset.gl)
 #'   result <- gl.filter.reproducibility(testset.gl, threshold=0.99, verbose=3)
 #' # Tag P/A data
 #'   gl.report.reproducibility(testset.gs)
 #'   result <- gl.filter.reproducibility(testset.gs, threshold=0.99)
+#'   }
+#'   
+#'   test <- gl.subsample.loci(platypus.gl,n=100)
+#'   res <- gl.filter.reproducibility(test)
+#'   
 #' @seealso \code{\link{gl.report.reproducibility}}
-#' @family filters and filter reports
+#' @family filter functions
 #' @import patchwork
 #' @export
 
@@ -65,7 +71,8 @@ gl.filter.reproducibility <- function(x,
     if (threshold < 0 | threshold > 1) {
         cat(
             warn(
-                "  Warning: Threshold value for repeatability measure must be between 0 and 1, set to 0.99\n"
+                "  Warning: Threshold value for repeatability measure must be 
+                between 0 and 1, set to 0.99\n"
             )
         )
         threshold <- 0.99
@@ -74,7 +81,8 @@ gl.filter.reproducibility <- function(x,
         if (is.null(x@other$loc.metrics$Reproducibility)) {
             stop(
                 error(
-                    "Fatal Error: Dataset does not include Reproducibility among the locus metrics, cannot be calculated!"
+                    "Fatal Error: Dataset does not include Reproducibility among
+                    the locus metrics, cannot be calculated!"
                 )
             )
         }
@@ -83,7 +91,8 @@ gl.filter.reproducibility <- function(x,
         if (is.null(x@other$loc.metrics$RepAvg)) {
             stop(
                 error(
-                    "Fatal Error: Dataset does not include RepAvg among the locus metrics, cannot be calculated!"
+                    "Fatal Error: Dataset does not include RepAvg among the 
+                    locus metrics, cannot be calculated!"
                 )
             )
         }
@@ -216,7 +225,8 @@ gl.filter.reproducibility <- function(x,
             cat(report("  Saving ggplot(s) to the session tempfile\n"))
             cat(
                 report(
-                    "  NOTE: Retrieve output files from tempdir using gl.list.reports() and gl.print.reports()\n"
+                    "  NOTE: Retrieve output files from tempdir using 
+                    gl.list.reports() and gl.print.reports()\n"
                 )
             )
         }
